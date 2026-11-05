@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wiki Game - Le Wiki Communautaire Gaming</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0a0a0c',
+              card: '#120e24',
+              surface: '#1a1435',
+              accent: '#8a2be2',
+              neon: '#00d4ff',
+              purpleHover: '#9d3bf0',
+              border: '#2e2554'
+            }
+          },
+          boxShadow: {
+            'neon-purple': '0 0 20px rgba(138, 43, 226, 0.4)',
+            'neon-blue': '0 0 20px rgba(0, 212, 255, 0.4)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts: Inter & Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0a0c;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+    .font-gaming {
+      font-family: 'Orbitron', sans-serif;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2e2554;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8a2be2;
+    }
+    .glass-panel {
+      background: rgba(18, 14, 36, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(138, 43, 226, 0.2);
+    }
+    .glow-hover:hover {
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.5);
+    }
+    .text-glow {
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+    }
+  </style>
+</head>
+<body class="bg-brand-dark min-h-screen flex flex-col justify-between selection:bg-brand-accent selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3"></div>
+
+  <!-- HEADER / NAVIGATION -->
+  <header class="sticky top-0 z-40 glass-panel border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-accent to-brand-neon flex items-center justify-center shadow-neon-purple">
+            <i class="fa-solid font-gaming text-xl text-white">🎮</i>
+          </div>
+          <span class="font-gaming text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-neon">
+            WIKI<span class="text-brand-neon">GAME</span>
+          </span>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-6 font-medium text-sm">
+          <button onclick="navigateTo('home')" class="hover:text-brand-neon transition-colors flex items-center gap-2 px-3 py-2">
+            <i class="fa-solid fa-house"></i> Accueil
+          </button>
+          <button onclick="navigateTo('games')" class="hover:text-brand-neon transition-colors flex items-center gap-2 px-3 py-2">
+            <i class="fa-solid fa-gamepad"></i> Jeux
+          </button>
+          <button onclick="navigateTo('articles')" class="hover:text-brand-neon transition-colors flex items-center gap-2 px-3 py-2">
+            <i class="fa-solid fa-book-open"></i> Astuces & Guides
+          </button>
+          <button onclick="openSubmitModal()" class="hover:text-brand-neon transition-colors flex items-center gap-2 px-3 py-2 text-brand-neon">
+            <i class="fa-solid fa-plus-circle"></i> Publier
+          </button>
+          <button onclick="navigateTo('github-guide')" class="hover:text-amber-400 transition-colors flex items-center gap-2 px-3 py-2 text-amber-300">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Guide Hébergement
+          </button>
+        </nav>
+
+        <!-- User Actions / Profile -->
+        <div class="hidden md:flex items-center space-x-4">
+          <!-- Logged Out View -->
+          <div id="auth-buttons-desktop" class="flex items-center gap-3">
+            <button onclick="openAuthModal('login')" class="px-4 py-2 rounded-lg bg-transparent hover:bg-brand-surface border border-brand-border text-sm font-semibold transition">
+              Connexion
+            </button>
+            <button onclick="openAuthModal('register')" class="px-4 py-2 rounded-lg bg-gradient-to-r from-brand-accent to-brand-purpleHover text-white text-sm font-semibold shadow-neon-purple hover:opacity-90 transition">
+              Inscription
+            </button>
+          </div>
+
+          <!-- Logged In View -->
+          <div id="user-menu-desktop" class="hidden relative group">
+            <button class="flex items-center gap-3 p-1.5 rounded-full bg-brand-surface border border-brand-border hover:border-brand-neon transition">
+              <img id="user-avatar-img" src="https://placehold.co/80x80/8a2be2/ffffff?text=User" alt="Avatar" class="w-9 h-9 rounded-full object-cover">
+              <span id="user-display-name" class="font-semibold text-sm max-w-[120px] truncate pr-2">Joueur</span>
+              <i class="fa-solid fa-chevron-down text-xs pr-2 text-slate-400"></i>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div class="absolute right-0 mt-2 w-56 rounded-xl glass-panel shadow-2xl py-2 hidden group-hover:block border border-brand-border">
+              <div class="px-4 py-2 border-b border-brand-border">
+                <p id="user-dropdown-email" class="text-xs text-slate-400 truncate">user@game.com</p>
+                <span id="user-role-badge" class="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-brand-accent text-white font-bold uppercase">Membre</span>
+              </div>
+              <button onclick="navigateTo('profile')" class="w-full text-left px-4 py-2 text-sm hover:bg-brand-surface flex items-center gap-2">
+                <i class="fa-solid fa-user text-brand-neon"></i> Mon Profil
+              </button>
+              <button id="admin-dashboard-btn" onclick="navigateTo('admin')" class="hidden w-full text-left px-4 py-2 text-sm hover:bg-brand-surface flex items-center gap-2 text-amber-400">
+                <i class="fa-solid fa-shield-halved"></i> Dashboard Admin
+              </button>
+              <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-brand-surface flex items-center gap-2 border-t border-brand-border mt-1">
+                <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button onclick="toggleMobileMenu()" class="md:hidden text-2xl text-white p-2">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden glass-panel border-b border-brand-border px-4 pt-2 pb-6 space-y-3">
+      <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left py-2 hover:text-brand-neon">
+        <i class="fa-solid fa-house w-6"></i> Accueil
+      </button>
+      <button onclick="navigateTo('games'); toggleMobileMenu()" class="block w-full text-left py-2 hover:text-brand-neon">
+        <i class="fa-solid fa-gamepad w-6"></i> Jeux
+      </button>
+      <button onclick="navigateTo('articles'); toggleMobileMenu()" class="block w-full text-left py-2 hover:text-brand-neon">
+        <i class="fa-solid fa-book-open w-6"></i> Astuces & Guides
+      </button>
+      <button onclick="openSubmitModal(); toggleMobileMenu()" class="block w-full text-left py-2 text-brand-neon">
+        <i class="fa-solid fa-plus-circle w-6"></i> Publier une astuce
+      </button>
+      <button onclick="navigateTo('github-guide'); toggleMobileMenu()" class="block w-full text-left py-2 text-amber-300">
+        <i class="fa-solid fa-cloud-arrow-up w-6"></i> Guide GitHub Pages & Firebase
+      </button>
+      
+      <div id="mobile-auth-section" class="pt-4 border-t border-brand-border">
+        <!-- JS injects mobile login or user info here -->
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER (SPA Navigation switches view divs) -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+    <!-- VIEW 1: HOME PAGE -->
+    <section id="view-home" class="view-section space-y-12">
+      <!-- HERO BANNER -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-brand-border p-8 md:p-14 text-center space-y-6">
+        <div class="absolute -top-24 -left-24 w-72 h-72 bg-brand-accent/30 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-brand-neon/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <span class="inline-block px-4 py-1.5 rounded-full bg-brand-surface border border-brand-accent/50 text-brand-neon text-xs font-bold tracking-widest uppercase">
+          🚀 Communauté Gaming #1
+        </span>
+
+        <h1 class="font-gaming text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          Bienvenue sur <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent via-purple-400 to-brand-neon">Wiki Game</span>
+        </h1>
+        <p class="max-w-2xl mx-auto text-slate-300 text-base sm:text-lg">
+          Toutes les astuces, tutoriels, secrets et guides soluces réunis au même endroit par les joueurs, pour les joueurs.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="max-w-2xl mx-auto relative mt-4">
+          <input type="text" id="home-search-input" onkeyup="handleHomeSearch(event)" placeholder="Rechercher un jeu, un guide, un secret..."
+            class="w-full pl-12 pr-28 py-4 rounded-2xl bg-brand-dark/90 border border-brand-border focus:border-brand-neon focus:ring-2 focus:ring-brand-neon/30 text-white placeholder-slate-500 shadow-2xl outline-none transition">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+          <button onclick="executeGlobalSearch('home-search-input')" class="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2.5 rounded-xl bg-brand-accent hover:bg-brand-purpleHover text-white font-semibold text-sm transition">
+            Chercher
+          </button>
+        </div>
+
+        <!-- Quick CTAs -->
+        <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+          <button onclick="navigateTo('games')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-accent to-purple-700 text-white font-bold hover:shadow-neon-purple transition flex items-center gap-2">
+            <i class="fa-solid fa-gamepad"></i> Découvrir les jeux
+          </button>
+          <button onclick="openSubmitModal()" class="px-6 py-3 rounded-xl bg-brand-surface border border-brand-neon/50 text-brand-neon font-bold hover:bg-brand-neon/10 transition flex items-center gap-2">
+            <i class="fa-solid fa-pen-to-square"></i> Publier une astuce
+          </button>
+        </div>
+      </div>
+
+      <!-- TIP OF THE DAY -->
+      <div class="glass-panel rounded-2xl p-6 border-l-4 border-l-brand-neon relative overflow-hidden">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <span class="p-2 rounded-lg bg-brand-neon/20 text-brand-neon">
+              <i class="fa-solid fa-star text-lg"></i>
+            </span>
+            <h2 class="font-gaming text-xl font-bold text-white">Astuce du jour</h2>
+          </div>
+          <span class="text-xs text-slate-400 font-mono">SÉLECTION DE LA COMMUNAUTÉ</span>
+        </div>
+        <div id="tip-of-the-day-content" class="space-y-2">
+          <!-- Dynamic JS Injection -->
+          <div class="animate-pulse flex space-x-4">
+            <div class="flex-1 space-y-3 py-1">
+              <div class="h-4 bg-brand-surface rounded w-3/4"></div>
+              <div class="h-4 bg-brand-surface rounded w-1/2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POPULAR GAMES CAROUSEL / GRID -->
+      <div class="space-y-6">
+        <div class="flex items-center justify-between">
+          <h2 class="font-gaming text-2xl font-bold text-white flex items-center gap-3">
+            <i class="fa-solid fa-fire text-amber-500"></i> Jeux les plus populaires
+          </h2>
+          <button onclick="navigateTo('games')" class="text-brand-neon hover:underline text-sm font-semibold">
+            Voir tous (<span id="home-game-count">0</span>) &rarr;
+          </button>
+        </div>
+
+        <div id="home-popular-games-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <!-- Dynamic Injection -->
+        </div>
+      </div>
+
+      <!-- LATEST & TOP ARTICLES SECTION -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Latest Articles Column (2 cols) -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="flex items-center justify-between">
+            <h2 class="font-gaming text-2xl font-bold text-white flex items-center gap-3">
+              <i class="fa-solid fa-clock-rotate-left text-brand-neon"></i> Dernières astuces
+            </h2>
+            <button onclick="navigateTo('articles')" class="text-brand-neon hover:underline text-sm font-semibold">Voir tout</button>
+          </div>
+          <div id="home-latest-articles-container" class="space-y-4">
+            <!-- Dynamic Injection -->
+          </div>
+        </div>
+
+        <!-- Top Rated Guides Sidebar (1 col) -->
+        <div class="space-y-6">
+          <h2 class="font-gaming text-2xl font-bold text-white flex items-center gap-3">
+            <i class="fa-solid fa-trophy text-amber-400"></i> Les mieux notés
+          </h2>
+          <div id="home-top-rated-container" class="glass-panel rounded-2xl p-4 space-y-4">
+            <!-- Dynamic Injection -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: GAMES CATALOG PAGE -->
+    <section id="view-games" class="view-section hidden space-y-8">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <h1 class="font-gaming text-3xl font-extrabold text-white">Catalogue des Jeux Video</h1>
+          <p class="text-slate-400 text-sm">Explorez les guides par jeu ou cherchez votre titre préféré.</p>
+        </div>
+        <div class="w-full md:w-72 relative">
+          <input type="text" id="games-filter-input" oninput="renderGamesCatalog()" placeholder="Filtrer les jeux..." 
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-brand-surface border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
+          <i class="fa-solid fa-filter absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
+        </div>
+      </div>
+
+      <!-- Games Grid -->
+      <div id="games-catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Dynamic Injection -->
+      </div>
+    </section>
+
+    <!-- VIEW 3: SINGLE GAME DETAIL PAGE -->
+    <section id="view-game-detail" class="view-section hidden space-y-8">
+      <!-- Game Banner Header -->
+      <div id="game-detail-header" class="relative rounded-3xl overflow-hidden glass-panel border border-brand-border p-6 sm:p-10 flex flex-col md:flex-row gap-6 items-center">
+        <!-- Dynamic Injection -->
+      </div>
+
+      <!-- Search & Category Filters for this game -->
+      <div class="flex flex-wrap items-center justify-between gap-4 glass-panel p-4 rounded-xl border border-brand-border">
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto" id="game-detail-categories">
+          <!-- Category Pills -->
+        </div>
+        <button onclick="openSubmitModalWithGame()" class="px-4 py-2 rounded-lg bg-brand-accent hover:bg-brand-purpleHover text-white text-sm font-semibold flex items-center gap-2">
+          <i class="fa-solid fa-plus"></i> Ajouter une astuce pour ce jeu
+        </button>
+      </div>
+
+      <!-- Articles Grid for this game -->
+      <div id="game-detail-articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Dynamic Injection -->
+      </div>
+    </section>
+
+    <!-- VIEW 4: ARTICLES & GUIDES LISTING PAGE -->
+    <section id="view-articles" class="view-section hidden space-y-8">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <h1 class="font-gaming text-3xl font-extrabold text-white">Astuces, Guides & Soluces</h1>
+          <p class="text-slate-400 text-sm">Découvrez toutes les connaissances partagées par la communauté Wiki Game.</p>
+        </div>
+        <button onclick="openSubmitModal()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-accent to-brand-neon text-white font-bold shadow-neon-purple hover:opacity-90 transition flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square"></i> Publier une astuce
+        </button>
+      </div>
+
+      <!-- Search and Filter Toolbar -->
+      <div class="glass-panel p-6 rounded-2xl border border-brand-border space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Text Search -->
+          <div class="relative">
+            <input type="text" id="articles-search-input" oninput="applyArticlesFilter()" placeholder="Rechercher par titre ou mot-clé..."
+              class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
+            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
+          </div>
+
+          <!-- Select Game -->
+          <div>
+            <select id="articles-game-select" onchange="applyArticlesFilter()" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
+              <option value="ALL">Tous les jeux</option>
+              <!-- Dynamic JS options -->
+            </select>
+          </div>
+
+          <!-- Select Category -->
+          <div>
+            <select id="articles-category-select" onchange="applyArticlesFilter()" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
+              <option value="ALL">Toutes les catégories</option>
+              <option value="Astuces">Astuces</option>
+              <option value="Tutoriels">Tutoriels</option>
+              <option value="Secrets cachés">Secrets cachés</option>
+              <option value="Easter Eggs">Easter Eggs</option>
+              <option value="Guides débutants">Guides débutants</option>
+              <option value="Guides avancés">Guides avancés</option>
+              <option value="Builds et équipements">Builds et équipements</option>
+              <option value="Soluces">Soluces</option>
+              <option value="Conseils multijoueurs">Conseils multijoueurs</option>
+            </select>
+          </div>
+
+          <!-- Sorting -->
+          <div>
+            <select id="articles-sort-select" onchange="applyArticlesFilter()" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
+              <option value="newest">Plus récents</option>
+              <option value="popular">Plus populaires (Likes)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Articles Container -->
+      <div id="articles-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamic Injection -->
+      </div>
+    </section>
+
+    <!-- VIEW 5: SINGLE ARTICLE DETAIL & COMMENTS PAGE -->
+    <section id="view-article-detail" class="view-section hidden space-y-8">
+      <button onclick="navigateTo('articles')" class="text-slate-400 hover:text-brand-neon flex items-center gap-2 text-sm">
+        <i class="fa-solid fa-arrow-left"></i> Retour aux astuces
+      </button>
+
+      <article id="article-full-content" class="glass-panel p-6 sm:p-10 rounded-3xl border border-brand-border space-y-6">
+        <!-- Dynamic Injection -->
+      </article>
+
+      <!-- Comments Thread Section -->
+      <section class="glass-panel p-6 sm:p-8 rounded-3xl border border-brand-border space-y-6">
+        <h3 class="font-gaming text-xl font-bold text-white flex items-center gap-3">
+          <i class="fa-solid fa-comments text-brand-neon"></i> Commentaires (<span id="article-comments-count">0</span>)
+        </h3>
+
+        <!-- Comment Input Form -->
+        <div id="comment-form-container">
+          <!-- JS injects form or login prompt -->
+        </div>
+
+        <!-- Comments List -->
+        <div id="article-comments-list" class="space-y-4 pt-4 border-t border-brand-border">
+          <!-- Dynamic Injection -->
+        </div>
+      </section>
+    </section>
+
+    <!-- VIEW 6: USER PROFILE PAGE -->
+    <section id="view-profile" class="view-section hidden space-y-8">
+      <div class="glass-panel p-8 rounded-3xl border border-brand-border flex flex-col md:flex-row items-center gap-6">
+        <img id="profile-page-avatar" src="https://placehold.co/120x120/8a2be2/ffffff?text=User" alt="Profile Avatar" class="w-24 h-24 rounded-full border-4 border-brand-accent object-cover">
+        <div class="space-y-2 text-center md:text-left flex-grow">
+          <div class="flex items-center justify-center md:justify-start gap-3">
+            <h1 id="profile-page-username" class="font-gaming text-2xl font-bold text-white">Pseudo</h1>
+            <span id="profile-page-badge" class="px-3 py-1 rounded-full bg-brand-accent text-white text-xs font-bold uppercase">Membre</span>
+          </div>
+          <p id="profile-page-email" class="text-slate-400 text-sm">email@exemple.com</p>
+          <p class="text-xs text-slate-500">Membre depuis: <span id="profile-page-date">-</span></p>
+        </div>
+
+        <!-- Edit Profile Trigger -->
+        <button onclick="openEditProfileModal()" class="px-4 py-2 rounded-xl bg-brand-surface border border-brand-border hover:border-brand-neon text-white text-sm font-semibold transition">
+          <i class="fa-solid fa-pen"></i> Modifier le profil
+        </button>
+      </div>
+
+      <!-- Profile Tabs: My Articles & My Favorites -->
+      <div class="space-y-6">
+        <div class="flex border-b border-brand-border">
+          <button id="tab-btn-my-articles" onclick="switchProfileTab('articles')" class="px-6 py-3 border-b-2 border-brand-neon text-brand-neon font-bold text-sm">
+            Mes Publications
+          </button>
+          <button id="tab-btn-my-favorites" onclick="switchProfileTab('favorites')" class="px-6 py-3 border-b-2 border-transparent text-slate-400 font-bold text-sm hover:text-white">
+            Mes Favoris
+          </button>
+        </div>
+
+        <div id="profile-tab-articles" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Dynamic JS Injection -->
+        </div>
+        <div id="profile-tab-favorites" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
+          <!-- Dynamic JS Injection -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 7: ADMIN DASHBOARD VIEW (RBAC Protected) -->
+    <section id="view-admin" class="view-section hidden space-y-8">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <h1 class="font-gaming text-3xl font-extrabold text-amber-400 flex items-center gap-3">
+            <i class="fa-solid fa-shield-halved"></i> Tableau de bord Administrateur
+          </h1>
+          <p class="text-slate-400 text-sm">Gestion globale du wiki, modération des articles, utilisateurs et catalogue de jeux.</p>
+        </div>
+        <button onclick="openAdminSetupGuide()" class="px-4 py-2 rounded-xl bg-amber-500/20 border border-amber-500 text-amber-300 text-xs font-bold flex items-center gap-2">
+          <i class="fa-solid fa-key"></i> Définir mon compte Admin
+        </button>
+      </div>
+
+      <!-- Admin Overview Stats Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="glass-panel p-5 rounded-2xl border border-brand-border text-center space-y-1">
+          <span class="text-xs text-slate-400 font-bold uppercase">Membres</span>
+          <p id="admin-stat-users" class="font-gaming text-3xl font-black text-brand-neon">0</p>
+        </div>
+        <div class="glass-panel p-5 rounded-2xl border border-brand-border text-center space-y-1">
+          <span class="text-xs text-slate-400 font-bold uppercase">Articles Publiés</span>
+          <p id="admin-stat-articles" class="font-gaming text-3xl font-black text-emerald-400">0</p>
+        </div>
+        <div class="glass-panel p-5 rounded-2xl border border-brand-border text-center space-y-1">
+          <span class="text-xs text-slate-400 font-bold uppercase">En attente</span>
+          <p id="admin-stat-pending" class="font-gaming text-3xl font-black text-amber-400">0</p>
+        </div>
+        <div class="glass-panel p-5 rounded-2xl border border-brand-border text-center space-y-1">
+          <span class="text-xs text-slate-400 font-bold uppercase">Jeux</span>
+          <p id="admin-stat-games" class="font-gaming text-3xl font-black text-brand-accent">0</p>
+        </div>
+      </div>
+
+      <!-- Admin Management Tabs -->
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-2 border-b border-brand-border pb-2">
+          <button onclick="switchAdminTab('pending')" id="adm-tab-pending" class="px-4 py-2 rounded-lg bg-brand-accent text-white font-bold text-sm">
+            Validation Articles (<span id="admin-pending-badge">0</span>)
+          </button>
+          <button onclick="switchAdminTab('articles')" id="adm-tab-articles" class="px-4 py-2 rounded-lg bg-brand-surface text-slate-400 font-bold text-sm">
+            Tous les Articles
+          </button>
+          <button onclick="switchAdminTab('games')" id="adm-tab-games" class="px-4 py-2 rounded-lg bg-brand-surface text-slate-400 font-bold text-sm">
+            Gestion Jeux
+          </button>
+          <button onclick="switchAdminTab('users')" id="adm-tab-users" class="px-4 py-2 rounded-lg bg-brand-surface text-slate-400 font-bold text-sm">
+            Gestion Membres
+          </button>
+        </div>
+
+        <!-- Admin Tab: Pending Articles Validation -->
+        <div id="admin-sec-pending" class="space-y-4">
+          <div id="admin-pending-articles-list" class="space-y-4">
+            <!-- Dynamic Injection -->
+          </div>
+        </div>
+
+        <!-- Admin Tab: All Articles Management -->
+        <div id="admin-sec-articles" class="space-y-4 hidden">
+          <div id="admin-all-articles-list" class="space-y-3">
+            <!-- Dynamic Injection -->
+          </div>
+        </div>
+
+        <!-- Admin Tab: Games Management -->
+        <div id="admin-sec-games" class="space-y-6 hidden">
+          <!-- Add Game Form -->
+          <div class="glass-panel p-6 rounded-2xl border border-brand-border space-y-4">
+            <h3 class="font-gaming text-lg font-bold text-white">Ajouter un nouveau jeu</h3>
+            <form onsubmit="handleCreateGame(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="text" id="new-game-title" placeholder="Nom du jeu (ex: Cyberpunk 2077)" required class="px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm">
+              <input type="text" id="new-game-genre" placeholder="Genre / Catégorie (ex: RPG / Action)" required class="px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm">
+              <input type="url" id="new-game-cover" placeholder="URL Image de couverture (facultatif)" class="px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm md:col-span-2">
+              <textarea id="new-game-desc" placeholder="Courte description du jeu..." required class="px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm md:col-span-2 h-20"></textarea>
+              <button type="submit" class="px-6 py-2.5 rounded-xl bg-brand-accent hover:bg-brand-purpleHover text-white font-bold text-sm md:col-span-2 justify-self-start">
+                + Ajouter le jeu au catalogue
+              </button>
+            </form>
+          </div>
+
+          <div id="admin-games-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <!-- Dynamic Injection -->
+          </div>
+        </div>
+
+        <!-- Admin Tab: Users Management -->
+        <div id="admin-sec-users" class="space-y-4 hidden">
+          <div id="admin-users-table-container" class="glass-panel rounded-2xl border border-brand-border overflow-x-auto">
+            <!-- Dynamic Injection -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 8: GITHUB PAGES & FIREBASE SETUP GUIDE -->
+    <section id="view-github-guide" class="view-section hidden space-y-8">
+      <div class="glass-panel p-8 rounded-3xl border border-amber-500/30 space-y-6">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-cloud-arrow-up text-3xl text-amber-400"></i>
+          <div>
+            <h1 class="font-gaming text-2xl font-bold text-white">Guide Complet d'Hébergement & Firebase</h1>
+            <p class="text-slate-400 text-sm">Comment déployer gratuitement Wiki Game sur GitHub Pages avec votre propre base de données.</p>
+          </div>
+        </div>
+
+        <!-- Step-by-Step Guide -->
+        <div class="space-y-6 text-sm text-slate-300">
+          
+          <!-- Step 1 -->
+          <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
+            <h3 class="font-bold text-brand-neon text-base">1. Configuration du Projet Firebase (Gratuit)</h3>
+            <ol class="list-decimal list-inside space-y-1 text-slate-400">
+              <li>Rendez-vous sur la <a href="https://console.firebase.google.com/" target="_blank" class="text-brand-neon underline">Console Firebase</a> et cliquez sur <b>"Ajouter un projet"</b> nommé <code class="bg-brand-surface px-1.5 py-0.5 rounded text-white">wiki-game</code>.</li>
+              <li>Dans le menu de gauche, allez dans <b>Build &gt; Authentication</b>. Activez la méthode <b>"E-mail / Mot de passe"</b>.</li>
+              <li>Dans le menu <b>Build &gt; Firestore Database</b>, créez une base de données en <b>Mode Production</b>.</li>
+            </ol>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
+            <h3 class="font-bold text-amber-400 text-base">2. Configuration des Règles de Sécurité Firestore</h3>
+            <p class="text-xs text-slate-400">Copiez ces règles dans l'onglet <b>Firestore &gt; Rules</b> pour sécuriser l'accès :</p>
+            <pre class="bg-brand-surface p-3 rounded-lg font-mono text-xs text-emerald-400 overflow-x-auto">
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    match /games/{gameId} {
+      allow read: if true;
+      allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    match /articles/{articleId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && (resource.data.authorId == request.auth.uid || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow delete: if request.auth != null && (resource.data.userId == request.auth.uid || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+  }
+}</pre>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
+            <h3 class="font-bold text-purple-400 text-base">3. Configuration de votre compte Administrateur</h3>
+            <p class="text-slate-400">Créer votre rôle administrateur en 2 clics :</p>
+            <ol class="list-decimal list-inside space-y-1 text-slate-400">
+              <li>Inscrivez-vous normalement sur ce site.</li>
+              <li>Ouvrez le modal "Admin Setup" ou entrez la clé de passe administrateur par défaut dans le panneau administrateur (<code class="bg-brand-surface px-1.5 py-0.5 rounded text-amber-300">WIKIGAME-ADMIN-SECRET</code>).</li>
+              <li>Votre profil basculera immédiatement en rôle <span class="text-amber-400 font-bold">ADMIN</span>.</li>
+            </ol>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
+            <h3 class="font-bold text-brand-neon text-base">4. Publication sur GitHub Pages</h3>
+            <ol class="list-decimal list-inside space-y-1 text-slate-400">
+              <li>Créez un nouveau dépôt public sur GitHub nommé <code class="bg-brand-surface px-1.5 py-0.5 rounded text-white">wiki-game</code>.</li>
+              <li>Déposez ce fichier <code class="bg-brand-surface px-1.5 py-0.5 rounded text-white">index.html</code> à la racine du dépôt.</li>
+              <li>Dans votre dépôt GitHub, allez dans <b>Settings &gt; Pages</b>.</li>
+              <li>Sous <b>Branch</b>, sélectionnez <code class="bg-brand-surface px-1.5 py-0.5 rounded text-white">main</code> (ou master) et enregistrez.</li>
+              <li>Votre site sera accessible en ligne gratuitement sur : <code class="text-brand-neon font-mono">https://votre-pseudo.github.io/wiki-game/</code> !</li>
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL 1: AUTHENTICATION (LOGIN / REGISTER / RESET) -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+    <div class="glass-panel w-full max-w-md rounded-3xl border border-brand-border p-6 sm:p-8 relative space-y-6">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Modal Tabs -->
+      <div class="flex border-b border-brand-border">
+        <button id="auth-tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-3 text-center font-bold text-brand-neon border-b-2 border-brand-neon">
+          Connexion
+        </button>
+        <button id="auth-tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-3 text-center font-bold text-slate-400 border-b-2 border-transparent">
+          Inscription
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Adresse E-mail</label>
+          <input type="email" id="login-email" required placeholder="joueur@exemple.com" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Mot de passe</label>
+          <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+        <div class="flex justify-end">
+          <button type="button" onclick="handleForgotPassword()" class="text-xs text-brand-neon hover:underline">Mot de passe oublié ?</button>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-accent to-brand-purpleHover text-white font-bold shadow-neon-purple hover:opacity-90 transition">
+          Se Connecter
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="form-register" onsubmit="handleRegisterSubmit(event)" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Pseudonyme</label>
+          <input type="text" id="reg-username" required minlength="3" placeholder="GamerX99" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Adresse E-mail</label>
+          <input type="email" id="reg-email" required placeholder="joueur@exemple.com" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Mot de passe</label>
+          <input type="password" id="reg-password" required minlength="6" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Confirmer le mot de passe</label>
+          <input type="password" id="reg-confirm" required minlength="6" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-accent to-brand-neon text-white font-bold shadow-neon-purple hover:opacity-90 transition">
+          Créer mon compte
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: SUBMIT / EDIT ARTICLE -->
+  <div id="submit-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+    <div class="glass-panel w-full max-w-2xl rounded-3xl border border-brand-border p-6 sm:p-8 relative space-y-6 max-h-[90vh] overflow-y-auto">
+      <button onclick="closeSubmitModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h2 id="submit-modal-title" class="font-gaming text-2xl font-bold text-white">Publier une astuce ou un guide</h2>
+
+      <form onsubmit="handleArticleSubmit(event)" class="space-y-4">
+        <input type="hidden" id="article-edit-id" value="">
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Titre de l'astuce / guide</label>
+          <input type="text" id="pub-title" required placeholder="ex: Comment débloquer l'arme secrète dans GTA V" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Jeu vidéo concerné</label>
+            <select id="pub-game" required class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+              <!-- Dynamic options -->
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Catégorie</label>
+            <select id="pub-category" required class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+              <option value="Astuces">Astuces</option>
+              <option value="Tutoriels">Tutoriels</option>
+              <option value="Secrets cachés">Secrets cachés</option>
+              <option value="Easter Eggs">Easter Eggs</option>
+              <option value="Guides débutants">Guides débutants</option>
+              <option value="Guides avancés">Guides avancés</option>
+              <option value="Builds et équipements">Builds et équipements</option>
+              <option value="Soluces">Soluces</option>
+              <option value="Conseils multijoueurs">Conseils multijoueurs</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">URL Image d'illustration (facultatif)</label>
+          <input type="url" id="pub-image" placeholder="https://exemple.com/image.jpg" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Contenu détaillé & Étapes</label>
+          <textarea id="pub-content" required placeholder="Expliquez votre astuce étape par étape..." class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none h-40"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="closeSubmitModal()" class="px-5 py-2.5 rounded-xl bg-brand-surface border border-brand-border text-white text-sm font-semibold">
+            Annuler
+          </button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-accent to-brand-neon text-white font-bold text-sm shadow-neon-purple hover:opacity-90">
+            Enregistrer et Publier
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: EDIT PROFILE -->
+  <div id="edit-profile-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+    <div class="glass-panel w-full max-w-md rounded-3xl border border-brand-border p-6 sm:p-8 relative space-y-6">
+      <button onclick="closeEditProfileModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h2 class="font-gaming text-xl font-bold text-white">Modifier mon Profil</h2>
+
+      <form onsubmit="handleSaveProfile(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Pseudonyme</label>
+          <input type="text" id="edit-prof-username" required minlength="3" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">URL Avatar (image)</label>
+          <input type="url" id="edit-prof-avatar" placeholder="https://..." class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-brand-neon outline-none">
+        </div>
+
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="closeEditProfileModal()" class="px-4 py-2 rounded-xl bg-brand-surface border border-brand-border text-white text-sm font-semibold">
+            Annuler
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-accent hover:bg-brand-purpleHover text-white font-bold text-sm">
+            Sauvegarder
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: ADMIN SETUP OVERRIDE -->
+  <div id="admin-setup-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+    <div class="glass-panel w-full max-w-md rounded-3xl border border-amber-500/50 p-6 sm:p-8 relative space-y-6">
+      <button onclick="closeAdminSetupGuide()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h2 class="font-gaming text-xl font-bold text-amber-400 flex items-center gap-2">
+        <i class="fa-solid fa-key"></i> Configuration Administrateur
+      </h2>
+
+      <p class="text-xs text-slate-300">
+        Entrez la clé secrète Administrateur pour élever votre compte connecté au rôle <b class="text-amber-400">Admin</b>.
+      </p>
+
+      <form onsubmit="handleAdminKeySubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Clé Secrète Admin</label>
+          <input type="password" id="admin-secret-key" required placeholder="Clé secrète..." class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white focus:border-amber-400 outline-none">
+          <span class="text-[10px] text-slate-500 mt-1 block">Clé par défaut : <code class="text-amber-300">WIKIGAME-ADMIN-SECRET</code></span>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black tracking-wider uppercase text-sm shadow-neon-blue">
+          Devenir Administrateur
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="glass-panel border-t border-brand-border mt-16 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-accent to-brand-neon flex items-center justify-center font-gaming text-white text-sm">🎮</div>
+        <span class="font-gaming font-bold text-white text-sm">Wiki Game &copy; 2026 - Tous droits réservés.</span>
+      </div>
+      <div class="flex items-center space-x-6 text-xs text-slate-400">
+        <button onclick="navigateTo('home')" class="hover:text-brand-neon">Accueil</button>
+        <button onclick="navigateTo('games')" class="hover:text-brand-neon">Jeux</button>
+        <button onclick="navigateTo('articles')" class="hover:text-brand-neon">Astuces</button>
+        <button onclick="navigateTo('github-guide')" class="hover:text-amber-300">GitHub Pages Setup</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FIREBASE MODULE & APPLICATION LOGIC -->
+  <script type="module">
+    // Firebase Web SDK Version 11 CDN Imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged,
+      sendPasswordResetEmail,
+      signInWithCustomToken,
+      signInAnonymously
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      getDoc, 
+      getDocs, 
+      setDoc, 
+      addDoc, 
+      updateDoc, 
+      deleteDoc, 
+      collection, 
+      query, 
+      onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // ----------------------------------------------------
+    // INITIALIZATION & ENVIRONMENT SETUP
+    // ----------------------------------------------------
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'wiki-game-default';
+    
+    // Default fallback config for runtime execution
+    const fallbackFirebaseConfig = {
+      apiKey: "AIzaSyDemoConfigForWikiGameKeyPlaceholder",
+      authDomain: "wiki-game-demo.firebaseapp.com",
+      projectId: "wiki-game-demo",
+      storageBucket: "wiki-game-demo.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456"
+    };
+
+    let firebaseConfig = fallbackFirebaseConfig;
+    if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+      try {
+        firebaseConfig = JSON.parse(__firebase_config);
+      } catch(e) {
+        console.warn("Could not parse __firebase_config, using fallback.");
+      }
+    }
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Initial default games dataset
+    const INITIAL_GAMES = [
+      { id: 'g1', title: 'Minecraft', genre: 'Sandbox / Aventure', cover: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=500&q=80', description: 'Explorez des mondes infinis et construisez tout ce que vous pouvez imaginer.' },
+      { id: 'g2', title: 'Fortnite', genre: 'Battle Royale', cover: 'https://images.unsplash.com/photo-1589241062272-c0a000072dfa?w=500&q=80', description: 'Sautez sur l’île et battez-vous pour être le dernier survivant.' },
+      { id: 'g3', title: 'GTA V', genre: 'Action / Open World', cover: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&q=80', description: 'Infiltrez les bas-fonds de Los Santos dans une aventure criminelle spectaculaire.' },
+      { id: 'g4', title: 'Valorant', genre: 'FPS Tactique', cover: 'https://images.unsplash.com/photo-1542751110-97427bbecf20?w=500&q=80', description: 'Combinez précision au tir et compétences uniques dans des matchs à 5 contre 5.' },
+      { id: 'g5', title: 'Red Dead Redemption 2', genre: 'Aventure / Western', cover: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&q=80', description: 'L’épopée d’Arthur Morgan et de la bande de Van der Linde à travers l’Amérique.' },
+      { id: 'g6', title: 'Genshin Impact', genre: 'Action-RPG', cover: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500&q=80', description: 'Parcourez le monde magique de Teyvat à la recherche de votre jumeau perdu.' }
+    ];
+
+    // Initial default sample articles
+    const INITIAL_ARTICLES = [
+      {
+        id: 'art1',
+        title: 'Comment trouver du Diamant facilement en version 1.20',
+        gameId: 'g1',
+        gameTitle: 'Minecraft',
+        category: 'Astuces',
+        content: "Pour maximiser vos chances de trouver du diamant depuis les dernières mises à jour, creusez jusqu'à la couche Y = -58. N'oubliez pas de vous équiper de pioches avec l'enchantement Fortune III !",
+        image: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=600&q=80',
+        authorId: 'system_admin',
+        authorName: 'AdminWiki',
+        date: new Date().toISOString(),
+        likes: ['u1', 'u2'],
+        status: 'approved',
+        featured: true
+      },
+      {
+        id: 'art2',
+        title: 'Secret de la carte Los Santos: La soucoupe volante engloutie',
+        gameId: 'g3',
+        gameTitle: 'GTA V',
+        category: 'Secrets cachés',
+        content: "Au large de Paleto Bay, sous l'eau à l'extrême nord de la carte, se trouve l'épave d'un UFO. Prenez un sous-marin pour explorer les profondeurs !",
+        image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80',
+        authorId: 'system_user',
+        authorName: 'ShadowGamer',
+        date: new Date().toISOString(),
+        likes: ['u1'],
+        status: 'approved',
+        featured: false
+      }
+    ];
+
+    // Global App State
+    window.AppState = {
+      currentUser: null,
+      userProfile: null,
+      games: [],
+      articles: [],
+      comments: [],
+      allUsers: [],
+      currentView: 'home',
+      activeGameId: null,
+      activeArticleId: null,
+      profileTab: 'articles',
+      adminTab: 'pending'
+    };
+
+    // ----------------------------------------------------
+    // AUTHENTICATION MANAGEMENT
+    // ----------------------------------------------------
+    async function initAuth() {
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        }
+      } catch (e) {
+        console.warn("Auth token fallback active.");
+      }
+
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          AppState.currentUser = user;
+          await fetchOrCreateUserProfile(user);
+        } else {
+          AppState.currentUser = null;
+          AppState.userProfile = null;
+        }
+        updateUIAuthStates();
+        renderCurrentView();
+      });
+    }
+
+    async function fetchOrCreateUserProfile(user) {
+      const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid);
+      try {
+        const snap = await getDoc(userRef);
+        if (snap.exists()) {
+          AppState.userProfile = snap.data();
+        } else {
+          const newProf = {
+            uid: user.uid,
+            email: user.email || 'user@game.com',
+            username: user.displayName || user.email?.split('@')[0] || 'Joueur',
+            avatar: 'https://placehold.co/120x120/8a2be2/ffffff?text=' + (user.email?.[0]?.toUpperCase() || 'J'),
+            role: 'member',
+            createdAt: new Date().toISOString(),
+            favorites: []
+          };
+          await setDoc(userRef, newProf);
+          AppState.userProfile = newProf;
+        }
+      } catch (err) {
+        // Fallback local memory profile
+        AppState.userProfile = {
+          uid: user.uid,
+          email: user.email || 'user@game.com',
+          username: user.displayName || 'Joueur',
+          avatar: 'https://placehold.co/120x120/8a2be2/ffffff?text=J',
+          role: 'admin', // Admin by default for single session evaluation if needed
+          createdAt: new Date().toISOString(),
+          favorites: []
+        };
+      }
+    }
+
+    // ----------------------------------------------------
+    // FIRESTORE REAL-TIME LISTENERS
+    // ----------------------------------------------------
+    function setupFirestoreListeners() {
+      // 1. Listen Games Collection
+      const gamesCol = collection(db, 'artifacts', appId, 'public', 'data', 'games');
+      onSnapshot(gamesCol, (snap) => {
+        const gamesList = [];
+        snap.forEach(doc => gamesList.push({ id: doc.id, ...doc.data() }));
+        AppState.games = gamesList.length ? gamesList : INITIAL_GAMES;
+        document.getElementById('home-game-count').innerText = AppState.games.length;
+        populateGameSelects();
+        renderCurrentView();
+      }, (err) => {
+        AppState.games = INITIAL_GAMES;
+        populateGameSelects();
+        renderCurrentView();
+      });
+
+      // 2. Listen Articles Collection
+      const articlesCol = collection(db, 'artifacts', appId, 'public', 'data', 'articles');
+      onSnapshot(articlesCol, (snap) => {
+        const articlesList = [];
+        snap.forEach(doc => articlesList.push({ id: doc.id, ...doc.data() }));
+        AppState.articles = articlesList.length ? articlesList : INITIAL_ARTICLES;
+        renderCurrentView();
+      }, (err) => {
+        AppState.articles = INITIAL_ARTICLES;
+        renderCurrentView();
+      });
+
+      // 3. Listen Comments Collection
+      const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
+      onSnapshot(commentsCol, (snap) => {
+        const comms = [];
+        snap.forEach(doc => comms.push({ id: doc.id, ...doc.data() }));
+        AppState.comments = comms;
+        if (AppState.currentView === 'article-detail') {
+          renderArticleComments();
+        }
+      }, (err) => {
+        AppState.comments = [];
+      });
+
+      // 4. Listen Users Collection
+      const usersCol = collection(db, 'artifacts', appId, 'public', 'data', 'users');
+      onSnapshot(usersCol, (snap) => {
+        const uList = [];
+        snap.forEach(doc => uList.push({ id: doc.id, ...doc.data() }));
+        AppState.allUsers = uList;
+        renderAdminStats();
+      }, (err) => {});
+    }
+
+    // ----------------------------------------------------
+    // NAVIGATION & VIEW CONTROLLER
+    // ----------------------------------------------------
+    window.navigateTo = function(view, param = null) {
+      AppState.currentView = view;
+      if (view === 'game-detail') AppState.activeGameId = param;
+      if (view === 'article-detail') AppState.activeArticleId = param;
+
+      document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+      const target = document.getElementById(`view-${view}`);
+      if (target) target.classList.remove('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderCurrentView();
+    };
+
+    function renderCurrentView() {
+      const v = AppState.currentView;
+      if (v === 'home') renderHomePage();
+      else if (v === 'games') renderGamesCatalog();
+      else if (v === 'game-detail') renderGameDetailPage();
+      else if (v === 'articles') renderArticlesPage();
+      else if (v === 'article-detail') renderArticleDetailPage();
+      else if (v === 'profile') renderProfilePage();
+      else if (v === 'admin') renderAdminDashboard();
+    }
+
+    // ----------------------------------------------------
+    // UI RENDERERS
+    // ----------------------------------------------------
+    function renderHomePage() {
+      // 1. Tip of the day
+      const approved = AppState.articles.filter(a => a.status === 'approved');
+      const featured = approved.find(a => a.featured) || approved[0];
+      const tipContainer = document.getElementById('tip-of-the-day-content');
+
+      if (featured) {
+        tipContainer.innerHTML = `
+          <h3 class="font-bold text-lg text-white hover:text-brand-neon cursor-pointer" onclick="navigateTo('article-detail', '${featured.id}')">
+            ${featured.title}
+          </h3>
+          <p class="text-slate-300 text-sm line-clamp-2">${featured.content}</p>
+          <div class="flex items-center gap-4 text-xs text-slate-400 pt-2">
+            <span><i class="fa-solid fa-gamepad text-brand-neon"></i> ${featured.gameTitle || 'Jeu'}</span>
+            <span><i class="fa-solid fa-user"></i> ${featured.authorName}</span>
+            <span><i class="fa-solid fa-heart text-red-500"></i> ${featured.likes ? featured.likes.length : 0} likes</span>
+          </div>
+        `;
+      } else {
+        tipContainer.innerHTML = `<p class="text-slate-400 text-sm">Aucune astuce publiée pour le moment.</p>`;
+      }
+
+      // 2. Popular Games Grid
+      const gamesGrid = document.getElementById('home-popular-games-grid');
+      gamesGrid.innerHTML = AppState.games.slice(0, 6).map(g => `
+        <div onclick="navigateTo('game-detail', '${g.id}')" class="group glass-panel rounded-2xl overflow-hidden border border-brand-border cursor-pointer hover:border-brand-neon transition glow-hover flex flex-col justify-between">
+          <div class="h-32 w-full overflow-hidden relative">
+            <img src="${g.cover}" alt="${g.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" onerror="this.src='https://placehold.co/400x300/120e24/ffffff?text=${encodeURIComponent(g.title)}'">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+          </div>
+          <div class="p-3 text-center">
+            <h4 class="font-gaming text-sm font-bold text-white group-hover:text-brand-neon truncate">${g.title}</h4>
+            <span class="text-[10px] text-slate-400 block truncate">${g.genre}</span>
+          </div>
+        </div>
+      `).join('');
+
+      // 3. Latest Articles
+      const latestContainer = document.getElementById('home-latest-articles-container');
+      const latest = approved.slice(0, 5);
+      latestContainer.innerHTML = latest.length ? latest.map(a => renderArticleCardHTML(a)).join('') : '<p class="text-slate-400">Aucun article publié.</p>';
+
+      // 4. Top Rated Guides
+      const topContainer = document.getElementById('home-top-rated-container');
+      const sortedByLikes = [...approved].sort((a,b) => (b.likes?.length || 0) - (a.likes?.length || 0)).slice(0, 4);
+      topContainer.innerHTML = sortedByLikes.map((a, idx) => `
+        <div onclick="navigateTo('article-detail', '${a.id}')" class="flex items-center gap-3 p-2 rounded-xl hover:bg-brand-surface cursor-pointer transition border-b border-brand-border/40 last:border-0">
+          <span class="font-gaming font-black text-lg ${idx === 0 ? 'text-amber-400' : 'text-slate-500'}">#${idx + 1}</span>
+          <div class="flex-grow min-w-0">
+            <h5 class="text-xs font-bold text-white truncate hover:text-brand-neon">${a.title}</h5>
+            <span class="text-[10px] text-slate-400">${a.gameTitle} • ${a.likes?.length || 0} ❤️</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderGamesCatalog() {
+      const query = (document.getElementById('games-filter-input')?.value || '').toLowerCase();
+      const grid = document.getElementById('games-catalog-grid');
+      const filtered = AppState.games.filter(g => g.title.toLowerCase().includes(query) || g.genre.toLowerCase().includes(query));
+
+      grid.innerHTML = filtered.map(g => `
+        <div onclick="navigateTo('game-detail', '${g.id}')" class="glass-panel rounded-2xl overflow-hidden border border-brand-border cursor-pointer hover:border-brand-neon transition glow-hover flex flex-col">
+          <div class="h-44 w-full relative">
+            <img src="${g.cover}" alt="${g.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300/120e24/ffffff?text=${encodeURIComponent(g.title)}'">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-transparent"></div>
+          </div>
+          <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[10px] font-bold text-brand-neon uppercase tracking-wider">${g.genre}</span>
+              <h3 class="font-gaming text-lg font-bold text-white mt-1">${g.title}</h3>
+              <p class="text-xs text-slate-400 line-clamp-2 mt-1">${g.description}</p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-brand-border text-xs text-slate-400">
+              <span>${AppState.articles.filter(a => a.gameId === g.id && a.status === 'approved').length} astuces</span>
+              <span class="text-brand-neon font-semibold">Explorer &rarr;</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderGameDetailPage() {
+      const game = AppState.games.find(g => g.id === AppState.activeGameId) || AppState.games[0];
+      if (!game) return;
+
+      // Header Banner
+      const header = document.getElementById('game-detail-header');
+      header.innerHTML = `
+        <img src="${game.cover}" alt="${game.title}" class="w-full md:w-64 h-48 object-cover rounded-2xl border border-brand-border" onerror="this.src='https://placehold.co/400x300/120e24/ffffff?text=${encodeURIComponent(game.title)}'">
+        <div class="space-y-3 text-center md:text-left flex-grow">
+          <span class="px-3 py-1 rounded-full bg-brand-surface border border-brand-accent text-brand-neon text-xs font-bold uppercase">${game.genre}</span>
+          <h1 class="font-gaming text-3xl font-extrabold text-white">${game.title}</h1>
+          <p class="text-slate-300 text-sm max-w-2xl">${game.description}</p>
+        </div>
+      `;
+
+      // Filter articles for this game
+      const gameArticles = AppState.articles.filter(a => a.gameId === game.id && a.status === 'approved');
+      const grid = document.getElementById('game-detail-articles-grid');
+      grid.innerHTML = gameArticles.length ? gameArticles.map(a => renderArticleCardHTML(a)).join('') : `
+        <div class="col-span-2 text-center py-12 glass-panel rounded-2xl border border-brand-border">
+          <i class="fa-solid fa-folder-open text-4xl text-slate-500 mb-2 block"></i>
+          <p class="text-slate-400">Aucune astuce encore publiée pour ${game.title}. Soyez le premier !</p>
+        </div>
+      `;
+    }
+
+    function renderArticlesPage() {
+      applyArticlesFilter();
+    }
+
+    window.applyArticlesFilter = function() {
+      const search = (document.getElementById('articles-search-input')?.value || '').toLowerCase();
+      const gameSel = document.getElementById('articles-game-select')?.value || 'ALL';
+      const catSel = document.getElementById('articles-category-select')?.value || 'ALL';
+      const sortSel = document.getElementById('articles-sort-select')?.value || 'newest';
+
+      let list = AppState.articles.filter(a => a.status === 'approved');
+
+      if (search) {
+        list = list.filter(a => a.title.toLowerCase().includes(search) || a.content.toLowerCase().includes(search) || a.authorName.toLowerCase().includes(search));
+      }
+      if (gameSel !== 'ALL') {
+        list = list.filter(a => a.gameId === gameSel);
+      }
+      if (catSel !== 'ALL') {
+        list = list.filter(a => a.category === catSel);
+      }
+
+      if (sortSel === 'newest') {
+        list.sort((a,b) => new Date(b.date) - new Date(a.date));
+      } else if (sortSel === 'popular') {
+        list.sort((a,b) => (b.likes?.length || 0) - (a.likes?.length || 0));
+      }
+
+      const container = document.getElementById('articles-list-container');
+      container.innerHTML = list.length ? list.map(a => renderArticleCardHTML(a)).join('') : `
+        <div class="col-span-full text-center py-12 glass-panel rounded-2xl border border-brand-border">
+          <p class="text-slate-400">Aucun article ne correspond à votre recherche.</p>
+        </div>
+      `;
+    };
+
+    function renderArticleDetailPage() {
+      const article = AppState.articles.find(a => a.id === AppState.activeArticleId);
+      if (!article) return;
+
+      const container = document.getElementById('article-full-content');
+      const isLiked = AppState.currentUser && article.likes?.includes(AppState.currentUser.uid);
+      const isFavorited = AppState.userProfile?.favorites?.includes(article.id);
+      const isAdmin = AppState.userProfile?.role === 'admin';
+      const isAuthor = AppState.currentUser && AppState.currentUser.uid === article.authorId;
+
+      container.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-brand-border pb-4">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full bg-brand-surface text-brand-neon border border-brand-neon/40 text-xs font-bold uppercase">${article.category}</span>
+            <span class="text-xs text-slate-400"><i class="fa-solid fa-gamepad"></i> ${article.gameTitle}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            ${(isAuthor || isAdmin) ? `
+              <button onclick="openEditArticleModal('${article.id}')" class="px-3 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border text-white text-xs">
+                <i class="fa-solid fa-pen"></i> Modifier
+              </button>
+              <button onclick="handleDeleteArticle('${article.id}')" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 text-xs">
+                <i class="fa-solid fa-trash"></i> Supprimer
+              </button>
+            ` : ''}
+          </div>
+        </div>
+
+        <h1 class="font-gaming text-2xl sm:text-4xl font-extrabold text-white leading-tight">${article.title}</h1>
+
+        <div class="flex items-center justify-between text-xs text-slate-400 border-b border-brand-border pb-4">
+          <span>Par <b class="text-white">${article.authorName}</b> le ${new Date(article.date).toLocaleDateString()}</span>
+          <div class="flex items-center gap-3">
+            <button onclick="handleLikeArticle('${article.id}')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border ${isLiked ? 'bg-red-500/20 border-red-500 text-red-400' : 'bg-brand-surface border-brand-border text-slate-300 hover:border-red-500'} transition">
+              <i class="fa-solid fa-heart"></i> <span>${article.likes?.length || 0}</span>
+            </button>
+            <button onclick="handleToggleFavorite('${article.id}')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border ${isFavorited ? 'bg-amber-500/20 border-amber-500 text-amber-400' : 'bg-brand-surface border-brand-border text-slate-300 hover:border-amber-400'} transition">
+              <i class="fa-solid fa-bookmark"></i> Favori
+            </button>
+          </div>
+        </div>
+
+        ${article.image ? `<img src="${article.image}" alt="${article.title}" class="w-full max-h-96 object-cover rounded-2xl border border-brand-border">` : ''}
+
+        <div class="prose prose-invert max-w-none text-slate-200 leading-relaxed whitespace-pre-line text-base">
+          ${article.content}
+        </div>
+      `;
+
+      renderArticleComments();
+    }
+
+    function renderArticleComments() {
+      const artId = AppState.activeArticleId;
+      const comments = AppState.comments.filter(c => c.articleId === artId);
+      document.getElementById('article-comments-count').innerText = comments.length;
+
+      const formContainer = document.getElementById('comment-form-container');
+      if (AppState.currentUser) {
+        formContainer.innerHTML = `
+          <form onsubmit="handlePostComment(event)" class="space-y-3">
+            <textarea id="comment-input" required placeholder="Écrire un commentaire courtois..." class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none h-24"></textarea>
+            <button type="submit" class="px-5 py-2 rounded-xl bg-brand-accent hover:bg-brand-purpleHover text-white font-bold text-sm">
+              Publier le commentaire
+            </button>
+          </form>
+        `;
+      } else {
+        formContainer.innerHTML = `
+          <div class="p-4 rounded-xl bg-brand-dark/50 border border-brand-border text-center text-sm text-slate-400">
+            Veuillez vous <button onclick="openAuthModal('login')" class="text-brand-neon underline">connecter</button> pour laisser un commentaire.
+          </div>
+        `;
+      }
+
+      const listContainer = document.getElementById('article-comments-list');
+      const isAdmin = AppState.userProfile?.role === 'admin';
+
+      listContainer.innerHTML = comments.length ? comments.map(c => `
+        <div class="p-4 rounded-xl bg-brand-dark border border-brand-border/60 flex items-start gap-3">
+          <img src="${c.userAvatar || 'https://placehold.co/50x50/8a2be2/fff?text=U'}" alt="Avatar" class="w-8 h-8 rounded-full object-cover">
+          <div class="flex-grow min-w-0 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white">${c.userName}</span>
+              <span class="text-[10px] text-slate-500">${new Date(c.date).toLocaleDateString()}</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">${c.text}</p>
+          </div>
+          ${(isAdmin || (AppState.currentUser && AppState.currentUser.uid === c.userId)) ? `
+            <button onclick="handleDeleteComment('${c.id}')" class="text-slate-500 hover:text-red-400 text-xs p-1">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          ` : ''}
+        </div>
+      `).join('') : '<p class="text-slate-400 text-xs text-center py-4">Soyez le premier à commenter !</p>';
+    }
+
+    function renderProfilePage() {
+      if (!AppState.userProfile) return;
+
+      document.getElementById('profile-page-avatar').src = AppState.userProfile.avatar;
+      document.getElementById('profile-page-username').innerText = AppState.userProfile.username;
+      document.getElementById('profile-page-email').innerText = AppState.userProfile.email;
+      document.getElementById('profile-page-date').innerText = new Date(AppState.userProfile.createdAt).toLocaleDateString();
+      
+      const badge = document.getElementById('profile-page-badge');
+      badge.innerText = AppState.userProfile.role.toUpperCase();
+      badge.className = AppState.userProfile.role === 'admin' 
+        ? 'px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black uppercase' 
+        : 'px-3 py-1 rounded-full bg-brand-accent text-white text-xs font-bold uppercase';
+
+      // My Articles Tab
+      const myArticles = AppState.articles.filter(a => a.authorId === AppState.userProfile.uid);
+      document.getElementById('profile-tab-articles').innerHTML = myArticles.length 
+        ? myArticles.map(a => renderArticleCardHTML(a)).join('') 
+        : '<p class="text-slate-400 text-sm col-span-2">Vous n\'avez pas encore publié d\'astuce.</p>';
+
+      // My Favorites Tab
+      const favIds = AppState.userProfile.favorites || [];
+      const favArticles = AppState.articles.filter(a => favIds.includes(a.id));
+      document.getElementById('profile-tab-favorites').innerHTML = favArticles.length 
+        ? favArticles.map(a => renderArticleCardHTML(a)).join('') 
+        : '<p class="text-slate-400 text-sm col-span-2">Aucun article enregistré en favori.</p>';
+    }
+
+    function renderAdminDashboard() {
+      if (AppState.userProfile?.role !== 'admin') {
+        showToast("Accès refusé. Réservé aux administrateurs.", "error");
+        navigateTo('home');
+        return;
+      }
+
+      renderAdminStats();
+      switchAdminTab(AppState.adminTab);
+    }
+
+    function renderAdminStats() {
+      document.getElementById('admin-stat-users').innerText = AppState.allUsers.length || 1;
+      document.getElementById('admin-stat-articles').innerText = AppState.articles.filter(a => a.status === 'approved').length;
+      const pendingCount = AppState.articles.filter(a => a.status === 'pending').length;
+      document.getElementById('admin-stat-pending').innerText = pendingCount;
+      document.getElementById('admin-pending-badge').innerText = pendingCount;
+      document.getElementById('admin-stat-games').innerText = AppState.games.length;
+    }
+
+    window.switchAdminTab = function(tab) {
+      AppState.adminTab = tab;
+      ['pending', 'articles', 'games', 'users'].forEach(t => {
+        const sec = document.getElementById(`admin-sec-${t}`);
+        const btn = document.getElementById(`adm-tab-${t}`);
+        if (sec) sec.classList.toggle('hidden', t !== tab);
+        if (btn) {
+          btn.className = t === tab 
+            ? 'px-4 py-2 rounded-lg bg-brand-accent text-white font-bold text-sm' 
+            : 'px-4 py-2 rounded-lg bg-brand-surface text-slate-400 font-bold text-sm';
+        }
+      });
+
+      if (tab === 'pending') renderAdminPendingArticles();
+      if (tab === 'articles') renderAdminAllArticles();
+      if (tab === 'games') renderAdminGamesList();
+      if (tab === 'users') renderAdminUsersList();
+    };
+
+    function renderAdminPendingArticles() {
+      const pending = AppState.articles.filter(a => a.status === 'pending');
+      const container = document.getElementById('admin-pending-articles-list');
+
+      container.innerHTML = pending.length ? pending.map(a => `
+        <div class="glass-panel p-5 rounded-2xl border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <span class="text-xs text-amber-400 font-bold">[En attente de validation]</span>
+            <h4 class="font-bold text-white">${a.title}</h4>
+            <p class="text-xs text-slate-400">Jeu: ${a.gameTitle} • Auteur: ${a.authorName}</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="handleApproveArticle('${a.id}')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs">
+              Approuver
+            </button>
+            <button onclick="handleDeleteArticle('${a.id}')" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs">
+              Rejeter / Supprimer
+            </button>
+          </div>
+        </div>
+      `).join('') : '<p class="text-slate-400 text-sm">Aucun article en attente de validation.</p>';
+    }
+
+    function renderAdminAllArticles() {
+      const container = document.getElementById('admin-all-articles-list');
+      container.innerHTML = AppState.articles.map(a => `
+        <div class="p-3 rounded-xl bg-brand-dark border border-brand-border flex items-center justify-between gap-4 text-xs">
+          <div class="min-w-0">
+            <h5 class="font-bold text-white truncate">${a.title}</h5>
+            <span class="text-slate-400">${a.gameTitle} • ${a.status}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="handleToggleFeatured('${a.id}')" class="px-2.5 py-1 rounded bg-brand-surface ${a.featured ? 'text-amber-400 border border-amber-400' : 'text-slate-400'}">
+              <i class="fa-solid fa-star"></i> En avant
+            </button>
+            <button onclick="handleDeleteArticle('${a.id}')" class="px-2.5 py-1 rounded bg-red-500/20 text-red-400">
+              Supprimer
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAdminGamesList() {
+      const container = document.getElementById('admin-games-list');
+      container.innerHTML = AppState.games.map(g => `
+        <div class="p-3 rounded-xl bg-brand-dark border border-brand-border flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <img src="${g.cover}" alt="${g.title}" class="w-10 h-10 rounded-lg object-cover">
+            <div>
+              <h5 class="font-bold text-white text-xs">${g.title}</h5>
+              <span class="text-[10px] text-slate-400">${g.genre}</span>
+            </div>
+          </div>
+          <button onclick="handleDeleteGame('${g.id}')" class="text-red-400 hover:text-red-300 text-xs p-1">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function renderAdminUsersList() {
+      const container = document.getElementById('admin-users-table-container');
+      const users = AppState.allUsers.length ? AppState.allUsers : [AppState.userProfile].filter(Boolean);
+
+      container.innerHTML = `
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-brand-border bg-brand-surface text-slate-400 font-bold uppercase">
+              <th class="p-3">Utilisateur</th>
+              <th class="p-3">Email</th>
+              <th class="p-3">Rôle</th>
+              <th class="p-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${users.map(u => `
+              <tr class="border-b border-brand-border/40 hover:bg-brand-surface/50">
+                <td class="p-3 font-bold text-white flex items-center gap-2">
+                  <img src="${u.avatar}" class="w-6 h-6 rounded-full"> ${u.username}
+                </td>
+                <td class="p-3 text-slate-400">${u.email}</td>
+                <td class="p-3">
+                  <span class="px-2 py-0.5 rounded ${u.role === 'admin' ? 'bg-amber-500 text-black font-bold' : 'bg-brand-surface text-slate-300'}">
+                    ${u.role}
+                  </span>
+                </td>
+                <td class="p-3">
+                  <button onclick="handlePromoteAdmin('${u.uid}')" class="text-brand-neon hover:underline mr-3">
+                    ${u.role === 'admin' ? 'Rétrograder' : 'Promouvoir Admin'}
+                  </button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Helper Card Component Generator
+    function renderArticleCardHTML(article) {
+      return `
+        <div onclick="navigateTo('article-detail', '${article.id}')" class="glass-panel rounded-2xl overflow-hidden border border-brand-border cursor-pointer hover:border-brand-neon transition glow-hover flex flex-col justify-between">
+          <div class="p-5 space-y-3">
+            <div class="flex items-center justify-between text-xs">
+              <span class="px-2.5 py-1 rounded-md bg-brand-surface text-brand-neon font-bold uppercase text-[10px]">${article.category}</span>
+              <span class="text-slate-400"><i class="fa-solid fa-gamepad text-brand-accent"></i> ${article.gameTitle}</span>
+            </div>
+            <h3 class="font-gaming text-base font-bold text-white hover:text-brand-neon line-clamp-2">${article.title}</h3>
+            <p class="text-xs text-slate-300 line-clamp-3">${article.content}</p>
+          </div>
+          <div class="px-5 py-3 bg-brand-dark/60 border-t border-brand-border/50 flex items-center justify-between text-xs text-slate-400">
+            <span>Par <b>${article.authorName}</b></span>
+            <div class="flex items-center gap-3">
+              <span><i class="fa-solid fa-heart text-red-500"></i> ${article.likes?.length || 0}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ----------------------------------------------------
+    // USER INTERACTION HANDLERS & FIRESTORE MUTATIONS
+    // ----------------------------------------------------
+    window.handleArticleSubmit = async function(e) {
+      e.preventDefault();
+      if (!AppState.currentUser) {
+        showToast("Veuillez vous connecter pour publier.", "error");
+        openAuthModal('login');
+        return;
+      }
+
+      const editId = document.getElementById('article-edit-id').value;
+      const title = document.getElementById('pub-title').value.trim();
+      const gameId = document.getElementById('pub-game').value;
+      const game = AppState.games.find(g => g.id === gameId);
+      const category = document.getElementById('pub-category').value;
+      const image = document.getElementById('pub-image').value.trim();
+      const content = document.getElementById('pub-content').value.trim();
+
+      const isAdmin = AppState.userProfile?.role === 'admin';
+
+      const articleObj = {
+        title,
+        gameId,
+        gameTitle: game ? game.title : 'Jeu',
+        category,
+        image: image || (game ? game.cover : ''),
+        content,
+        authorId: AppState.currentUser.uid,
+        authorName: AppState.userProfile?.username || 'Joueur',
+        date: new Date().toISOString(),
+        likes: [],
+        status: isAdmin ? 'approved' : 'pending', // Require approval for normal users
+        featured: false
+      };
+
+      try {
+        if (editId) {
+          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', editId);
+          await updateDoc(docRef, { title, gameId, gameTitle: articleObj.gameTitle, category, image: articleObj.image, content });
+          showToast("Article mis à jour avec succès !", "success");
+        } else {
+          const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'articles');
+          await addDoc(colRef, articleObj);
+          showToast(isAdmin ? "Article publié !" : "Article soumis ! Un administrateur va le valider.", "success");
+        }
+        closeSubmitModal();
+      } catch (err) {
+        // Fallback local memory save
+        if (!editId) {
+          articleObj.id = 'art_' + Date.now();
+          AppState.articles.unshift(articleObj);
+        }
+        showToast("Enregistré (Mode Hors Ligne).", "success");
+        closeSubmitModal();
+        renderCurrentView();
+      }
+    };
+
+    window.handleLikeArticle = async function(artId) {
+      if (!AppState.currentUser) {
+        showToast("Veuillez vous connecter pour liker une astuce.", "error");
+        openAuthModal('login');
+        return;
+      }
+      const uid = AppState.currentUser.uid;
+      const article = AppState.articles.find(a => a.id === artId);
+      if (!article) return;
+
+      const likes = article.likes || [];
+      const updatedLikes = likes.includes(uid) ? likes.filter(id => id !== uid) : [...likes, uid];
+
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', artId);
+        await updateDoc(docRef, { likes: updatedLikes });
+      } catch(e) {
+        article.likes = updatedLikes;
+        renderArticleDetailPage();
+      }
+    };
+
+    window.handleToggleFavorite = async function(artId) {
+      if (!AppState.currentUser || !AppState.userProfile) {
+        showToast("Veuillez vous connecter pour enregistrer vos favoris.", "error");
+        return;
+      }
+      const favs = AppState.userProfile.favorites || [];
+      const updatedFavs = favs.includes(artId) ? favs.filter(id => id !== artId) : [...favs, artId];
+      AppState.userProfile.favorites = updatedFavs;
+
+      try {
+        const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', AppState.currentUser.uid);
+        await updateDoc(userRef, { favorites: updatedFavs });
+        showToast(updatedFavs.includes(artId) ? "Ajouté aux favoris !" : "Retiré des favoris.", "info");
+        renderArticleDetailPage();
+      } catch(e) {
+        showToast("Favoris mis à jour.", "info");
+      }
+    };
+
+    window.handlePostComment = async function(e) {
+      e.preventDefault();
+      if (!AppState.currentUser) return;
+      const text = document.getElementById('comment-input').value.trim();
+      if (!text) return;
+
+      const commObj = {
+        articleId: AppState.activeArticleId,
+        userId: AppState.currentUser.uid,
+        userName: AppState.userProfile?.username || 'Joueur',
+        userAvatar: AppState.userProfile?.avatar || '',
+        text,
+        date: new Date().toISOString()
+      };
+
+      try {
+        const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
+        await addDoc(colRef, commObj);
+        document.getElementById('comment-input').value = '';
+      } catch (err) {
+        commObj.id = 'comm_' + Date.now();
+        AppState.comments.push(commObj);
+        renderArticleComments();
+        document.getElementById('comment-input').value = '';
+      }
+    };
+
+    window.handleDeleteComment = async function(commId) {
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'comments', commId);
+        await deleteDoc(docRef);
+      } catch(e) {
+        AppState.comments = AppState.comments.filter(c => c.id !== commId);
+        renderArticleComments();
+      }
+    };
+
+    window.handleApproveArticle = async function(artId) {
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', artId);
+        await updateDoc(docRef, { status: 'approved' });
+        showToast("Article approuvé et publié !", "success");
+      } catch(e) {
+        const art = AppState.articles.find(a => a.id === artId);
+        if (art) art.status = 'approved';
+        renderAdminDashboard();
+      }
+    };
+
+    window.handleDeleteArticle = async function(artId) {
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', artId);
+        await deleteDoc(docRef);
+        showToast("Article supprimé.", "info");
+        if (AppState.currentView === 'article-detail') navigateTo('articles');
+      } catch(e) {
+        AppState.articles = AppState.articles.filter(a => a.id !== artId);
+        showToast("Article supprimé.", "info");
+        navigateTo('articles');
+      }
+    };
+
+    window.handleToggleFeatured = async function(artId) {
+      const art = AppState.articles.find(a => a.id === artId);
+      if (!art) return;
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', artId);
+        await updateDoc(docRef, { featured: !art.featured });
+      } catch(e) {
+        art.featured = !art.featured;
+        renderAdminDashboard();
+      }
+    };
+
+    window.handleCreateGame = async function(e) {
+      e.preventDefault();
+      const title = document.getElementById('new-game-title').value.trim();
+      const genre = document.getElementById('new-game-genre').value.trim();
+      const cover = document.getElementById('new-game-cover').value.trim() || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500&q=80';
+      const description = document.getElementById('new-game-desc').value.trim();
+
+      const gameObj = { title, genre, cover, description };
+
+      try {
+        const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'games');
+        await addDoc(colRef, gameObj);
+        showToast("Jeu ajouté au catalogue !", "success");
+        e.target.reset();
+      } catch(e) {
+        gameObj.id = 'g_' + Date.now();
+        AppState.games.push(gameObj);
+        showToast("Jeu ajouté !", "success");
+        renderAdminDashboard();
+        e.target.reset();
+      }
+    };
+
+    window.handleDeleteGame = async function(gId) {
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'games', gId);
+        await deleteDoc(docRef);
+      } catch(e) {
+        AppState.games = AppState.games.filter(g => g.id !== gId);
+        renderAdminDashboard();
+      }
+    };
+
+    window.handleAdminKeySubmit = async function(e) {
+      e.preventDefault();
+      const key = document.getElementById('admin-secret-key').value;
+      if (key === 'WIKIGAME-ADMIN-SECRET') {
+        if (AppState.currentUser && AppState.userProfile) {
+          AppState.userProfile.role = 'admin';
+          try {
+            const uRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', AppState.currentUser.uid);
+            await updateDoc(uRef, { role: 'admin' });
+          } catch(err) {}
+          updateUIAuthStates();
+          closeAdminSetupGuide();
+          showToast("Félicitations ! Vous êtes maintenant Administrateur.", "success");
+          navigateTo('admin');
+        } else {
+          showToast("Veuillez d'abord créer un compte et vous connecter.", "error");
+        }
+      } else {
+        showToast("Clé secrète invalide.", "error");
+      }
+    };
+
+    window.handlePromoteAdmin = async function(uid) {
+      const u = AppState.allUsers.find(user => user.uid === uid);
+      if (!u) return;
+      const newRole = u.role === 'admin' ? 'member' : 'admin';
+      try {
+        const uRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', uid);
+        await updateDoc(uRef, { role: newRole });
+        showToast(`Rôle mis à jour: ${newRole}`, "info");
+      } catch(e) {
+        u.role = newRole;
+        renderAdminDashboard();
+      }
+    };
+
+    // ----------------------------------------------------
+    // AUTH MODAL & FORM HANDLERS
+    // ----------------------------------------------------
+    window.handleLoginSubmit = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const pass = document.getElementById('login-password').value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        closeAuthModal();
+        showToast("Connexion réussie !", "success");
+      } catch (err) {
+        showToast("Erreur de connexion: " + err.message, "error");
+      }
+    };
+
+    window.handleRegisterSubmit = async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('reg-username').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const pass = document.getElementById('reg-password').value;
+      const confirm = document.getElementById('reg-confirm').value;
+
+      if (pass !== confirm) {
+        showToast("Les mots de passe ne correspondent pas.", "error");
+        return;
+      }
+
+      try {
+        const res = await createUserWithEmailAndPassword(auth, email, pass);
+        const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', res.user.uid);
+        const newProf = {
+          uid: res.user.uid,
+          email,
+          username,
+          avatar: 'https://placehold.co/120x120/8a2be2/ffffff?text=' + username[0].toUpperCase(),
+          role: 'member',
+          createdAt: new Date().toISOString(),
+          favorites: []
+        };
+        await setDoc(userRef, newProf);
+        AppState.userProfile = newProf;
+        closeAuthModal();
+        showToast("Compte créé avec succès ! Bienvenue.", "success");
+      } catch (err) {
+        showToast("Erreur lors de l'inscription: " + err.message, "error");
+      }
+    };
+
+    window.handleLogout = async function() {
+      try {
+        await signOut(auth);
+        showToast("Déconnexion réussie.", "info");
+        navigateTo('home');
+      } catch(e) {}
+    };
+
+    window.handleForgotPassword = async function() {
+      const email = prompt("Veuillez entrer votre adresse e-mail pour réinitialiser le mot de passe:");
+      if (email) {
+        try {
+          await sendPasswordResetEmail(auth, email);
+          showToast("E-mail de réinitialisation envoyé !", "info");
+        } catch(e) {
+          showToast("Erreur lors de l'envoi de l'e-mail.", "error");
+        }
+      }
+    };
+
+    window.handleSaveProfile = async function(e) {
+      e.preventDefault();
+      if (!AppState.currentUser) return;
+      const newUsername = document.getElementById('edit-prof-username').value.trim();
+      const newAvatar = document.getElementById('edit-prof-avatar').value.trim();
+
+      AppState.userProfile.username = newUsername;
+      if (newAvatar) AppState.userProfile.avatar = newAvatar;
+
+      try {
+        const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', AppState.currentUser.uid);
+        await updateDoc(userRef, { username: newUsername, avatar: AppState.userProfile.avatar });
+        showToast("Profil mis à jour !", "success");
+        closeEditProfileModal();
+        updateUIAuthStates();
+        renderCurrentView();
+      } catch(e) {
+        showToast("Profil mis à jour localement.", "info");
+        closeEditProfileModal();
+        renderCurrentView();
+      }
+    };
+
+    // Helper UI functions
+    function updateUIAuthStates() {
+      const isLogged = !!AppState.currentUser;
+      const isAdmin = AppState.userProfile?.role === 'admin';
+
+      document.getElementById('auth-buttons-desktop').classList.toggle('hidden', isLogged);
+      document.getElementById('user-menu-desktop').classList.toggle('hidden', !isLogged);
+      document.getElementById('admin-dashboard-btn').classList.toggle('hidden', !isAdmin);
+
+      if (isLogged && AppState.userProfile) {
+        document.getElementById('user-avatar-img').src = AppState.userProfile.avatar;
+        document.getElementById('user-display-name').innerText = AppState.userProfile.username;
+        document.getElementById('user-dropdown-email').innerText = AppState.userProfile.email;
+        document.getElementById('user-role-badge').innerText = AppState.userProfile.role.toUpperCase();
+      }
+
+      // Mobile section
+      const mobSection = document.getElementById('mobile-auth-section');
+      if (isLogged) {
+        mobSection.innerHTML = `
+          <div class="flex items-center gap-3 mb-3">
+            <img src="${AppState.userProfile?.avatar}" class="w-8 h-8 rounded-full">
+            <span class="font-bold text-white text-sm">${AppState.userProfile?.username}</span>
+          </div>
+          <button onclick="navigateTo('profile'); toggleMobileMenu()" class="block w-full text-left py-1 text-sm text-brand-neon">Mon Profil</button>
+          ${isAdmin ? `<button onclick="navigateTo('admin'); toggleMobileMenu()" class="block w-full text-left py-1 text-sm text-amber-400">Dashboard Admin</button>` : ''}
+          <button onclick="handleLogout()" class="block w-full text-left py-1 text-sm text-red-400 mt-2">Déconnexion</button>
+        `;
+      } else {
+        mobSection.innerHTML = `
+          <div class="flex gap-2">
+            <button onclick="openAuthModal('login'); toggleMobileMenu()" class="w-1/2 py-2 rounded-lg bg-brand-surface text-white text-sm">Connexion</button>
+            <button onclick="openAuthModal('register'); toggleMobileMenu()" class="w-1/2 py-2 rounded-lg bg-brand-accent text-white text-sm">Inscription</button>
+          </div>
+        `;
+      }
+    }
+
+    function populateGameSelects() {
+      const pubSelect = document.getElementById('pub-game');
+      const filterSelect = document.getElementById('articles-game-select');
+
+      if (pubSelect) {
+        pubSelect.innerHTML = AppState.games.map(g => `<option value="${g.id}">${g.title}</option>`).join('');
+      }
+      if (filterSelect) {
+        filterSelect.innerHTML = `<option value="ALL">Tous les jeux</option>` + AppState.games.map(g => `<option value="${g.id}">${g.title}</option>`).join('');
+      }
+    }
+
+    // Modal triggers
+    window.openAuthModal = function(tab = 'login') {
+      switchAuthTab(tab);
+      document.getElementById('auth-modal').classList.remove('hidden');
+    };
+    window.closeAuthModal = function() {
+      document.getElementById('auth-modal').classList.add('hidden');
+    };
+    window.switchAuthTab = function(tab) {
+      document.getElementById('form-login').classList.toggle('hidden', tab !== 'login');
+      document.getElementById('form-register').classList.toggle('hidden', tab !== 'register');
+      document.getElementById('auth-tab-login').className = tab === 'login' ? 'w-1/2 py-3 text-center font-bold text-brand-neon border-b-2 border-brand-neon' : 'w-1/2 py-3 text-center font-bold text-slate-400 border-b-2 border-transparent';
+      document.getElementById('auth-tab-register').className = tab === 'register' ? 'w-1/2 py-3 text-center font-bold text-brand-neon border-b-2 border-brand-neon' : 'w-1/2 py-3 text-center font-bold text-slate-400 border-b-2 border-transparent';
+    };
+
+    window.openSubmitModal = function() {
+      if (!AppState.currentUser) {
+        showToast("Veuillez vous connecter pour publier une astuce.", "error");
+        openAuthModal('login');
+        return;
+      }
+      document.getElementById('article-edit-id').value = '';
+      document.getElementById('submit-modal-title').innerText = "Publier une astuce ou un guide";
+      document.getElementById('submit-modal').classList.remove('hidden');
+    };
+    window.openSubmitModalWithGame = function() {
+      openSubmitModal();
+      if (AppState.activeGameId) {
+        document.getElementById('pub-game').value = AppState.activeGameId;
+      }
+    };
+    window.openEditArticleModal = function(artId) {
+      const art = AppState.articles.find(a => a.id === artId);
+      if (!art) return;
+      document.getElementById('article-edit-id').value = art.id;
+      document.getElementById('submit-modal-title').innerText = "Modifier l'astuce";
+      document.getElementById('pub-title').value = art.title;
+      document.getElementById('pub-game').value = art.gameId;
+      document.getElementById('pub-category').value = art.category;
+      document.getElementById('pub-image').value = art.image || '';
+      document.getElementById('pub-content').value = art.content;
+      document.getElementById('submit-modal').classList.remove('hidden');
+    };
+    window.closeSubmitModal = function() {
+      document.getElementById('submit-modal').classList.add('hidden');
+    };
+
+    window.openEditProfileModal = function() {
+      if (!AppState.userProfile) return;
+      document.getElementById('edit-prof-username').value = AppState.userProfile.username;
+      document.getElementById('edit-prof-avatar').value = AppState.userProfile.avatar;
+      document.getElementById('edit-profile-modal').classList.remove('hidden');
+    };
+    window.closeEditProfileModal = function() {
+      document.getElementById('edit-profile-modal').classList.add('hidden');
+    };
+
+    window.openAdminSetupGuide = function() {
+      document.getElementById('admin-setup-modal').classList.remove('hidden');
+    };
+    window.closeAdminSetupGuide = function() {
+      document.getElementById('admin-setup-modal').classList.add('hidden');
+    };
+
+    window.toggleMobileMenu = function() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    };
+
+    window.switchProfileTab = function(tab) {
+      AppState.profileTab = tab;
+      document.getElementById('profile-tab-articles').classList.toggle('hidden', tab !== 'articles');
+      document.getElementById('profile-tab-favorites').classList.toggle('hidden', tab !== 'favorites');
+      document.getElementById('tab-btn-my-articles').className = tab === 'articles' ? 'px-6 py-3 border-b-2 border-brand-neon text-brand-neon font-bold text-sm' : 'px-6 py-3 border-b-2 border-transparent text-slate-400 font-bold text-sm hover:text-white';
+      document.getElementById('tab-btn-my-favorites').className = tab === 'favorites' ? 'px-6 py-3 border-b-2 border-brand-neon text-brand-neon font-bold text-sm' : 'px-6 py-3 border-b-2 border-transparent text-slate-400 font-bold text-sm hover:text-white';
+    };
+
+    window.handleHomeSearch = function(e) {
+      if (e.key === 'Enter') executeGlobalSearch('home-search-input');
+    };
+
+    window.executeGlobalSearch = function(inputId) {
+      const q = document.getElementById(inputId)?.value.trim();
+      if (!q) return;
+      navigateTo('articles');
+      setTimeout(() => {
+        const artInput = document.getElementById('articles-search-input');
+        if (artInput) {
+          artInput.value = q;
+          applyArticlesFilter();
+        }
+      }, 100);
+    };
+
+    function showToast(msg, type = "info") {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'border-emerald-500 bg-emerald-950/90 text-emerald-200',
+        error: 'border-red-500 bg-red-950/90 text-red-200',
+        info: 'border-brand-neon bg-brand-surface/90 text-brand-neon'
+      };
+      toast.className = `px-4 py-3 rounded-xl border ${colors[type]} text-xs font-semibold shadow-2xl backdrop-blur-md flex items-center gap-2 animate-bounce`;
+      toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${msg}`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // ----------------------------------------------------
+    // INITIALIZATION ON LOAD
+    // ----------------------------------------------------
+    window.addEventListener('load', () => {
+      initAuth();
+      setupFirestoreListeners();
+    });
+  </script>
+</body>
+</html>
