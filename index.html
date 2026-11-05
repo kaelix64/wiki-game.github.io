@@ -186,7 +186,7 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT CONTAINER (SPA Navigation switches view divs) -->
+  <!-- MAIN CONTENT CONTAINER -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
 
     <!-- VIEW 1: HOME PAGE -->
@@ -240,7 +240,6 @@
           <span class="text-xs text-slate-400 font-mono">SÉLECTION DE LA COMMUNAUTÉ</span>
         </div>
         <div id="tip-of-the-day-content" class="space-y-2">
-          <!-- Dynamic JS Injection -->
           <div class="animate-pulse flex space-x-4">
             <div class="flex-1 space-y-3 py-1">
               <div class="h-4 bg-brand-surface rounded w-3/4"></div>
@@ -268,7 +267,6 @@
 
       <!-- LATEST & TOP ARTICLES SECTION -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Latest Articles Column (2 cols) -->
         <div class="lg:col-span-2 space-y-6">
           <div class="flex items-center justify-between">
             <h2 class="font-gaming text-2xl font-bold text-white flex items-center gap-3">
@@ -281,7 +279,6 @@
           </div>
         </div>
 
-        <!-- Top Rated Guides Sidebar (1 col) -->
         <div class="space-y-6">
           <h2 class="font-gaming text-2xl font-bold text-white flex items-center gap-3">
             <i class="fa-solid fa-trophy text-amber-400"></i> Les mieux notés
@@ -307,7 +304,6 @@
         </div>
       </div>
 
-      <!-- Games Grid -->
       <div id="games-catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <!-- Dynamic Injection -->
       </div>
@@ -315,12 +311,10 @@
 
     <!-- VIEW 3: SINGLE GAME DETAIL PAGE -->
     <section id="view-game-detail" class="view-section hidden space-y-8">
-      <!-- Game Banner Header -->
       <div id="game-detail-header" class="relative rounded-3xl overflow-hidden glass-panel border border-brand-border p-6 sm:p-10 flex flex-col md:flex-row gap-6 items-center">
         <!-- Dynamic Injection -->
       </div>
 
-      <!-- Search & Category Filters for this game -->
       <div class="flex flex-wrap items-center justify-between gap-4 glass-panel p-4 rounded-xl border border-brand-border">
         <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto" id="game-detail-categories">
           <!-- Category Pills -->
@@ -330,7 +324,6 @@
         </button>
       </div>
 
-      <!-- Articles Grid for this game -->
       <div id="game-detail-articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Dynamic Injection -->
       </div>
@@ -348,25 +341,20 @@
         </button>
       </div>
 
-      <!-- Search and Filter Toolbar -->
       <div class="glass-panel p-6 rounded-2xl border border-brand-border space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          <!-- Text Search -->
           <div class="relative">
             <input type="text" id="articles-search-input" oninput="applyArticlesFilter()" placeholder="Rechercher par titre ou mot-clé..."
               class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
             <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
           </div>
 
-          <!-- Select Game -->
           <div>
             <select id="articles-game-select" onchange="applyArticlesFilter()" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
               <option value="ALL">Tous les jeux</option>
-              <!-- Dynamic JS options -->
             </select>
           </div>
 
-          <!-- Select Category -->
           <div>
             <select id="articles-category-select" onchange="applyArticlesFilter()" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
               <option value="ALL">Toutes les catégories</option>
@@ -382,7 +370,6 @@
             </select>
           </div>
 
-          <!-- Sorting -->
           <div>
             <select id="articles-sort-select" onchange="applyArticlesFilter()" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none">
               <option value="newest">Plus récents</option>
@@ -392,7 +379,6 @@
         </div>
       </div>
 
-      <!-- Articles Container -->
       <div id="articles-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Dynamic Injection -->
       </div>
@@ -408,18 +394,15 @@
         <!-- Dynamic Injection -->
       </article>
 
-      <!-- Comments Thread Section -->
       <section class="glass-panel p-6 sm:p-8 rounded-3xl border border-brand-border space-y-6">
         <h3 class="font-gaming text-xl font-bold text-white flex items-center gap-3">
           <i class="fa-solid fa-comments text-brand-neon"></i> Commentaires (<span id="article-comments-count">0</span>)
         </h3>
 
-        <!-- Comment Input Form -->
         <div id="comment-form-container">
           <!-- JS injects form or login prompt -->
         </div>
 
-        <!-- Comments List -->
         <div id="article-comments-list" class="space-y-4 pt-4 border-t border-brand-border">
           <!-- Dynamic Injection -->
         </div>
@@ -439,13 +422,11 @@
           <p class="text-xs text-slate-500">Membre depuis: <span id="profile-page-date">-</span></p>
         </div>
 
-        <!-- Edit Profile Trigger -->
         <button onclick="openEditProfileModal()" class="px-4 py-2 rounded-xl bg-brand-surface border border-brand-border hover:border-brand-neon text-white text-sm font-semibold transition">
           <i class="fa-solid fa-pen"></i> Modifier le profil
         </button>
       </div>
 
-      <!-- Profile Tabs: My Articles & My Favorites -->
       <div class="space-y-6">
         <div class="flex border-b border-brand-border">
           <button id="tab-btn-my-articles" onclick="switchProfileTab('articles')" class="px-6 py-3 border-b-2 border-brand-neon text-brand-neon font-bold text-sm">
@@ -465,7 +446,7 @@
       </div>
     </section>
 
-    <!-- VIEW 7: ADMIN DASHBOARD VIEW (RBAC Protected) -->
+    <!-- VIEW 7: ADMIN DASHBOARD VIEW -->
     <section id="view-admin" class="view-section hidden space-y-8">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
@@ -479,7 +460,6 @@
         </button>
       </div>
 
-      <!-- Admin Overview Stats Grid -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="glass-panel p-5 rounded-2xl border border-brand-border text-center space-y-1">
           <span class="text-xs text-slate-400 font-bold uppercase">Membres</span>
@@ -499,7 +479,6 @@
         </div>
       </div>
 
-      <!-- Admin Management Tabs -->
       <div class="space-y-6">
         <div class="flex flex-wrap gap-2 border-b border-brand-border pb-2">
           <button onclick="switchAdminTab('pending')" id="adm-tab-pending" class="px-4 py-2 rounded-lg bg-brand-accent text-white font-bold text-sm">
@@ -516,23 +495,19 @@
           </button>
         </div>
 
-        <!-- Admin Tab: Pending Articles Validation -->
         <div id="admin-sec-pending" class="space-y-4">
           <div id="admin-pending-articles-list" class="space-y-4">
             <!-- Dynamic Injection -->
           </div>
         </div>
 
-        <!-- Admin Tab: All Articles Management -->
         <div id="admin-sec-articles" class="space-y-4 hidden">
           <div id="admin-all-articles-list" class="space-y-3">
             <!-- Dynamic Injection -->
           </div>
         </div>
 
-        <!-- Admin Tab: Games Management -->
         <div id="admin-sec-games" class="space-y-6 hidden">
-          <!-- Add Game Form -->
           <div class="glass-panel p-6 rounded-2xl border border-brand-border space-y-4">
             <h3 class="font-gaming text-lg font-bold text-white">Ajouter un nouveau jeu</h3>
             <form onsubmit="handleCreateGame(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -551,7 +526,6 @@
           </div>
         </div>
 
-        <!-- Admin Tab: Users Management -->
         <div id="admin-sec-users" class="space-y-4 hidden">
           <div id="admin-users-table-container" class="glass-panel rounded-2xl border border-brand-border overflow-x-auto">
             <!-- Dynamic Injection -->
@@ -571,10 +545,7 @@
           </div>
         </div>
 
-        <!-- Step-by-Step Guide -->
         <div class="space-y-6 text-sm text-slate-300">
-          
-          <!-- Step 1 -->
           <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
             <h3 class="font-bold text-brand-neon text-base">1. Configuration du Projet Firebase (Gratuit)</h3>
             <ol class="list-decimal list-inside space-y-1 text-slate-400">
@@ -584,10 +555,9 @@
             </ol>
           </div>
 
-          <!-- Step 2 -->
           <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
             <h3 class="font-bold text-amber-400 text-base">2. Configuration des Règles de Sécurité Firestore</h3>
-            <p class="text-xs text-slate-400">Copiez ces règles dans l'onglet <b>Firestore &gt; Rules</b> pour sécuriser l'accès :</p>
+            <p class="text-xs text-slate-400">Copiez ces règles dans l'onglet <b>Firestore &gt; Rules</b> :</p>
             <pre class="bg-brand-surface p-3 rounded-lg font-mono text-xs text-emerald-400 overflow-x-auto">
 rules_version = '2';
 service cloud.firestore {
@@ -614,43 +584,38 @@ service cloud.firestore {
 }</pre>
           </div>
 
-          <!-- Step 3 -->
           <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
             <h3 class="font-bold text-purple-400 text-base">3. Configuration de votre compte Administrateur</h3>
-            <p class="text-slate-400">Créer votre rôle administrateur en 2 clics :</p>
             <ol class="list-decimal list-inside space-y-1 text-slate-400">
               <li>Inscrivez-vous normalement sur ce site.</li>
-              <li>Ouvrez le modal "Admin Setup" ou entrez la clé de passe administrateur par défaut dans le panneau administrateur (<code class="bg-brand-surface px-1.5 py-0.5 rounded text-amber-300">WIKIGAME-ADMIN-SECRET</code>).</li>
+              <li>Entrez la clé de passe administrateur dans la fenêtre "Définir mon compte Admin" (<code class="bg-brand-surface px-1.5 py-0.5 rounded text-amber-300">WIKIGAME-ADMIN-SECRET</code>).</li>
               <li>Votre profil basculera immédiatement en rôle <span class="text-amber-400 font-bold">ADMIN</span>.</li>
             </ol>
           </div>
 
-          <!-- Step 4 -->
           <div class="p-4 rounded-xl bg-brand-dark/80 border border-brand-border space-y-2">
             <h3 class="font-bold text-brand-neon text-base">4. Publication sur GitHub Pages</h3>
             <ol class="list-decimal list-inside space-y-1 text-slate-400">
               <li>Créez un nouveau dépôt public sur GitHub nommé <code class="bg-brand-surface px-1.5 py-0.5 rounded text-white">wiki-game</code>.</li>
               <li>Déposez ce fichier <code class="bg-brand-surface px-1.5 py-0.5 rounded text-white">index.html</code> à la racine du dépôt.</li>
               <li>Dans votre dépôt GitHub, allez dans <b>Settings &gt; Pages</b>.</li>
-              <li>Sous <b>Branch</b>, sélectionnez <code class="bg-brand-surface px-1.5 py-0.5 rounded text-white">main</code> (ou master) et enregistrez.</li>
-              <li>Votre site sera accessible en ligne gratuitement sur : <code class="text-brand-neon font-mono">https://votre-pseudo.github.io/wiki-game/</code> !</li>
+              <li>Sous <b>Branch</b>, sélectionnez <code class="bg-brand-surface px-1.5 py-0.5 rounded text-white">main</code> et enregistrez.</li>
+              <li>Votre site sera accessible sur : <code class="text-brand-neon font-mono">https://votre-pseudo.github.io/wiki-game/</code> !</li>
             </ol>
           </div>
-
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- MODAL 1: AUTHENTICATION (LOGIN / REGISTER / RESET) -->
+  <!-- MODAL 1: AUTHENTICATION -->
   <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
     <div class="glass-panel w-full max-w-md rounded-3xl border border-brand-border p-6 sm:p-8 relative space-y-6">
       <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <!-- Modal Tabs -->
       <div class="flex border-b border-brand-border">
         <button id="auth-tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-3 text-center font-bold text-brand-neon border-b-2 border-brand-neon">
           Connexion
@@ -660,7 +625,6 @@ service cloud.firestore {
         </button>
       </div>
 
-      <!-- Login Form -->
       <form id="form-login" onsubmit="handleLoginSubmit(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Adresse E-mail</label>
@@ -678,7 +642,6 @@ service cloud.firestore {
         </button>
       </form>
 
-      <!-- Register Form -->
       <form id="form-register" onsubmit="handleRegisterSubmit(event)" class="space-y-4 hidden">
         <div>
           <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Pseudonyme</label>
@@ -844,7 +807,6 @@ service cloud.firestore {
 
   <!-- FIREBASE MODULE & APPLICATION LOGIC -->
   <script type="module">
-    // Firebase Web SDK Version 11 CDN Imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { 
       getAuth, 
@@ -852,54 +814,40 @@ service cloud.firestore {
       signInWithEmailAndPassword, 
       signOut, 
       onAuthStateChanged,
-      sendPasswordResetEmail,
-      signInWithCustomToken,
-      signInAnonymously
+      sendPasswordResetEmail
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { 
       getFirestore, 
       doc, 
       getDoc, 
-      getDocs, 
       setDoc, 
       addDoc, 
       updateDoc, 
       deleteDoc, 
       collection, 
-      query, 
       onSnapshot 
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // ----------------------------------------------------
-    // INITIALIZATION & ENVIRONMENT SETUP
-    // ----------------------------------------------------
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'wiki-game-default';
-    
-    // Default fallback config for runtime execution
-const firebaseConfig = {
-  apiKey: "AIzaSyDo2OOU6Bl-kXclxyVZTwSpoPE3paU6VBk",
-  authDomain: "wiki-game64.firebaseapp.com",
-  projectId: "wiki-game64",
-  storageBucket: "wiki-game64.firebasestorage.app",
-  messagingSenderId: "681603698427",
-  appId: "1:681603698427:web:0c718c9e8af7933943aa5e",
-  measurementId: "G-DFVJG52FRB"
+    // Configuration Firebase du projet wiki-game64
+    const firebaseConfig = {
+      apiKey: "AIzaSyDo2OOU6Bl-kXclxyVZTwSpoPE3paU6VBk",
+      authDomain: "wiki-game64.firebaseapp.com",
+      projectId: "wiki-game64",
+      storageBucket: "wiki-game64.firebasestorage.app",
+      messagingSenderId: "681603698427",
+      appId: "1:681603698427:web:0c718c9e8af7933943aa5e",
+      measurementId: "G-DFVJG52FRB"
     };
 
-    let firebaseConfig = fallbackFirebaseConfig;
-    if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-      try {
-        firebaseConfig = JSON.parse(__firebase_config);
-      } catch(e) {
-        console.warn("Could not parse __firebase_config, using fallback.");
-      }
+    let app, auth, db;
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+    } catch(e) {
+      console.warn("Connexion à Firebase en mode hors ligne/secours.");
     }
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Initial default games dataset
     const INITIAL_GAMES = [
       { id: 'g1', title: 'Minecraft', genre: 'Sandbox / Aventure', cover: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=500&q=80', description: 'Explorez des mondes infinis et construisez tout ce que vous pouvez imaginer.' },
       { id: 'g2', title: 'Fortnite', genre: 'Battle Royale', cover: 'https://images.unsplash.com/photo-1589241062272-c0a000072dfa?w=500&q=80', description: 'Sautez sur l’île et battez-vous pour être le dernier survivant.' },
@@ -909,7 +857,6 @@ const firebaseConfig = {
       { id: 'g6', title: 'Genshin Impact', genre: 'Action-RPG', cover: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500&q=80', description: 'Parcourez le monde magique de Teyvat à la recherche de votre jumeau perdu.' }
     ];
 
-    // Initial default sample articles
     const INITIAL_ARTICLES = [
       {
         id: 'art1',
@@ -943,12 +890,11 @@ const firebaseConfig = {
       }
     ];
 
-    // Global App State
     window.AppState = {
       currentUser: null,
       userProfile: null,
-      games: [],
-      articles: [],
+      games: INITIAL_GAMES,
+      articles: INITIAL_ARTICLES,
       comments: [],
       allUsers: [],
       currentView: 'home',
@@ -958,18 +904,12 @@ const firebaseConfig = {
       adminTab: 'pending'
     };
 
-    // ----------------------------------------------------
-    // AUTHENTICATION MANAGEMENT
-    // ----------------------------------------------------
-    async function initAuth() {
-      try {
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
-        }
-      } catch (e) {
-        console.warn("Auth token fallback active.");
+    function initAuth() {
+      if (!auth) {
+        updateUIAuthStates();
+        renderCurrentView();
+        return;
       }
-
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           AppState.currentUser = user;
@@ -984,7 +924,8 @@ const firebaseConfig = {
     }
 
     async function fetchOrCreateUserProfile(user) {
-      const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid);
+      if (!db) return;
+      const userRef = doc(db, 'users', user.uid);
       try {
         const snap = await getDoc(userRef);
         if (snap.exists()) {
@@ -1003,76 +944,62 @@ const firebaseConfig = {
           AppState.userProfile = newProf;
         }
       } catch (err) {
-        // Fallback local memory profile
         AppState.userProfile = {
           uid: user.uid,
           email: user.email || 'user@game.com',
           username: user.displayName || 'Joueur',
           avatar: 'https://placehold.co/120x120/8a2be2/ffffff?text=J',
-          role: 'admin', // Admin by default for single session evaluation if needed
+          role: 'member',
           createdAt: new Date().toISOString(),
           favorites: []
         };
       }
     }
 
-    // ----------------------------------------------------
-    // FIRESTORE REAL-TIME LISTENERS
-    // ----------------------------------------------------
     function setupFirestoreListeners() {
-      // 1. Listen Games Collection
-      const gamesCol = collection(db, 'artifacts', appId, 'public', 'data', 'games');
-      onSnapshot(gamesCol, (snap) => {
-        const gamesList = [];
-        snap.forEach(doc => gamesList.push({ id: doc.id, ...doc.data() }));
-        AppState.games = gamesList.length ? gamesList : INITIAL_GAMES;
-        document.getElementById('home-game-count').innerText = AppState.games.length;
-        populateGameSelects();
-        renderCurrentView();
-      }, (err) => {
-        AppState.games = INITIAL_GAMES;
-        populateGameSelects();
-        renderCurrentView();
-      });
+      if (!db) return;
+      try {
+        const gamesCol = collection(db, 'games');
+        onSnapshot(gamesCol, (snap) => {
+          const gamesList = [];
+          snap.forEach(doc => gamesList.push({ id: doc.id, ...doc.data() }));
+          if (gamesList.length) AppState.games = gamesList;
+          const countEl = document.getElementById('home-game-count');
+          if (countEl) countEl.innerText = AppState.games.length;
+          populateGameSelects();
+          renderCurrentView();
+        });
 
-      // 2. Listen Articles Collection
-      const articlesCol = collection(db, 'artifacts', appId, 'public', 'data', 'articles');
-      onSnapshot(articlesCol, (snap) => {
-        const articlesList = [];
-        snap.forEach(doc => articlesList.push({ id: doc.id, ...doc.data() }));
-        AppState.articles = articlesList.length ? articlesList : INITIAL_ARTICLES;
-        renderCurrentView();
-      }, (err) => {
-        AppState.articles = INITIAL_ARTICLES;
-        renderCurrentView();
-      });
+        const articlesCol = collection(db, 'articles');
+        onSnapshot(articlesCol, (snap) => {
+          const articlesList = [];
+          snap.forEach(doc => articlesList.push({ id: doc.id, ...doc.data() }));
+          if (articlesList.length) AppState.articles = articlesList;
+          renderCurrentView();
+        });
 
-      // 3. Listen Comments Collection
-      const commentsCol = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
-      onSnapshot(commentsCol, (snap) => {
-        const comms = [];
-        snap.forEach(doc => comms.push({ id: doc.id, ...doc.data() }));
-        AppState.comments = comms;
-        if (AppState.currentView === 'article-detail') {
-          renderArticleComments();
-        }
-      }, (err) => {
-        AppState.comments = [];
-      });
+        const commentsCol = collection(db, 'comments');
+        onSnapshot(commentsCol, (snap) => {
+          const comms = [];
+          snap.forEach(doc => comms.push({ id: doc.id, ...doc.data() }));
+          AppState.comments = comms;
+          if (AppState.currentView === 'article-detail') {
+            renderArticleComments();
+          }
+        });
 
-      // 4. Listen Users Collection
-      const usersCol = collection(db, 'artifacts', appId, 'public', 'data', 'users');
-      onSnapshot(usersCol, (snap) => {
-        const uList = [];
-        snap.forEach(doc => uList.push({ id: doc.id, ...doc.data() }));
-        AppState.allUsers = uList;
-        renderAdminStats();
-      }, (err) => {});
+        const usersCol = collection(db, 'users');
+        onSnapshot(usersCol, (snap) => {
+          const uList = [];
+          snap.forEach(doc => uList.push({ id: doc.id, ...doc.data() }));
+          AppState.allUsers = uList;
+          renderAdminStats();
+        });
+      } catch(e) {
+        console.warn("Écouteurs en temps réel indisponibles.");
+      }
     }
 
-    // ----------------------------------------------------
-    // NAVIGATION & VIEW CONTROLLER
-    // ----------------------------------------------------
     window.navigateTo = function(view, param = null) {
       AppState.currentView = view;
       if (view === 'game-detail') AppState.activeGameId = param;
@@ -1097,68 +1024,70 @@ const firebaseConfig = {
       else if (v === 'admin') renderAdminDashboard();
     }
 
-    // ----------------------------------------------------
-    // UI RENDERERS
-    // ----------------------------------------------------
     function renderHomePage() {
-      // 1. Tip of the day
       const approved = AppState.articles.filter(a => a.status === 'approved');
       const featured = approved.find(a => a.featured) || approved[0];
       const tipContainer = document.getElementById('tip-of-the-day-content');
 
-      if (featured) {
-        tipContainer.innerHTML = `
-          <h3 class="font-bold text-lg text-white hover:text-brand-neon cursor-pointer" onclick="navigateTo('article-detail', '${featured.id}')">
-            ${featured.title}
-          </h3>
-          <p class="text-slate-300 text-sm line-clamp-2">${featured.content}</p>
-          <div class="flex items-center gap-4 text-xs text-slate-400 pt-2">
-            <span><i class="fa-solid fa-gamepad text-brand-neon"></i> ${featured.gameTitle || 'Jeu'}</span>
-            <span><i class="fa-solid fa-user"></i> ${featured.authorName}</span>
-            <span><i class="fa-solid fa-heart text-red-500"></i> ${featured.likes ? featured.likes.length : 0} likes</span>
-          </div>
-        `;
-      } else {
-        tipContainer.innerHTML = `<p class="text-slate-400 text-sm">Aucune astuce publiée pour le moment.</p>`;
+      if (tipContainer) {
+        if (featured) {
+          tipContainer.innerHTML = `
+            <h3 class="font-bold text-lg text-white hover:text-brand-neon cursor-pointer" onclick="navigateTo('article-detail', '${featured.id}')">
+              ${featured.title}
+            </h3>
+            <p class="text-slate-300 text-sm line-clamp-2">${featured.content}</p>
+            <div class="flex items-center gap-4 text-xs text-slate-400 pt-2">
+              <span><i class="fa-solid fa-gamepad text-brand-neon"></i> ${featured.gameTitle || 'Jeu'}</span>
+              <span><i class="fa-solid fa-user"></i> ${featured.authorName}</span>
+              <span><i class="fa-solid fa-heart text-red-500"></i> ${featured.likes ? featured.likes.length : 0} likes</span>
+            </div>
+          `;
+        } else {
+          tipContainer.innerHTML = `<p class="text-slate-400 text-sm">Aucune astuce publiée pour le moment.</p>`;
+        }
       }
 
-      // 2. Popular Games Grid
       const gamesGrid = document.getElementById('home-popular-games-grid');
-      gamesGrid.innerHTML = AppState.games.slice(0, 6).map(g => `
-        <div onclick="navigateTo('game-detail', '${g.id}')" class="group glass-panel rounded-2xl overflow-hidden border border-brand-border cursor-pointer hover:border-brand-neon transition glow-hover flex flex-col justify-between">
-          <div class="h-32 w-full overflow-hidden relative">
-            <img src="${g.cover}" alt="${g.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" onerror="this.src='https://placehold.co/400x300/120e24/ffffff?text=${encodeURIComponent(g.title)}'">
-            <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+      if (gamesGrid) {
+        gamesGrid.innerHTML = AppState.games.slice(0, 6).map(g => `
+          <div onclick="navigateTo('game-detail', '${g.id}')" class="group glass-panel rounded-2xl overflow-hidden border border-brand-border cursor-pointer hover:border-brand-neon transition glow-hover flex flex-col justify-between">
+            <div class="h-32 w-full overflow-hidden relative">
+              <img src="${g.cover}" alt="${g.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" onerror="this.src='https://placehold.co/400x300/120e24/ffffff?text=${encodeURIComponent(g.title)}'">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+            </div>
+            <div class="p-3 text-center">
+              <h4 class="font-gaming text-sm font-bold text-white group-hover:text-brand-neon truncate">${g.title}</h4>
+              <span class="text-[10px] text-slate-400 block truncate">${g.genre}</span>
+            </div>
           </div>
-          <div class="p-3 text-center">
-            <h4 class="font-gaming text-sm font-bold text-white group-hover:text-brand-neon truncate">${g.title}</h4>
-            <span class="text-[10px] text-slate-400 block truncate">${g.genre}</span>
-          </div>
-        </div>
-      `).join('');
+        `).join('');
+      }
 
-      // 3. Latest Articles
       const latestContainer = document.getElementById('home-latest-articles-container');
-      const latest = approved.slice(0, 5);
-      latestContainer.innerHTML = latest.length ? latest.map(a => renderArticleCardHTML(a)).join('') : '<p class="text-slate-400">Aucun article publié.</p>';
+      if (latestContainer) {
+        const latest = approved.slice(0, 5);
+        latestContainer.innerHTML = latest.length ? latest.map(a => renderArticleCardHTML(a)).join('') : '<p class="text-slate-400">Aucun article publié.</p>';
+      }
 
-      // 4. Top Rated Guides
       const topContainer = document.getElementById('home-top-rated-container');
-      const sortedByLikes = [...approved].sort((a,b) => (b.likes?.length || 0) - (a.likes?.length || 0)).slice(0, 4);
-      topContainer.innerHTML = sortedByLikes.map((a, idx) => `
-        <div onclick="navigateTo('article-detail', '${a.id}')" class="flex items-center gap-3 p-2 rounded-xl hover:bg-brand-surface cursor-pointer transition border-b border-brand-border/40 last:border-0">
-          <span class="font-gaming font-black text-lg ${idx === 0 ? 'text-amber-400' : 'text-slate-500'}">#${idx + 1}</span>
-          <div class="flex-grow min-w-0">
-            <h5 class="text-xs font-bold text-white truncate hover:text-brand-neon">${a.title}</h5>
-            <span class="text-[10px] text-slate-400">${a.gameTitle} • ${a.likes?.length || 0} ❤️</span>
+      if (topContainer) {
+        const sortedByLikes = [...approved].sort((a,b) => (b.likes?.length || 0) - (a.likes?.length || 0)).slice(0, 4);
+        topContainer.innerHTML = sortedByLikes.map((a, idx) => `
+          <div onclick="navigateTo('article-detail', '${a.id}')" class="flex items-center gap-3 p-2 rounded-xl hover:bg-brand-surface cursor-pointer transition border-b border-brand-border/40 last:border-0">
+            <span class="font-gaming font-black text-lg ${idx === 0 ? 'text-amber-400' : 'text-slate-500'}">#${idx + 1}</span>
+            <div class="flex-grow min-w-0">
+              <h5 class="text-xs font-bold text-white truncate hover:text-brand-neon">${a.title}</h5>
+              <span class="text-[10px] text-slate-400">${a.gameTitle} • ${a.likes?.length || 0} ❤️</span>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `).join('');
+      }
     }
 
     function renderGamesCatalog() {
       const query = (document.getElementById('games-filter-input')?.value || '').toLowerCase();
       const grid = document.getElementById('games-catalog-grid');
+      if (!grid) return;
       const filtered = AppState.games.filter(g => g.title.toLowerCase().includes(query) || g.genre.toLowerCase().includes(query));
 
       grid.innerHTML = filtered.map(g => `
@@ -1186,26 +1115,28 @@ const firebaseConfig = {
       const game = AppState.games.find(g => g.id === AppState.activeGameId) || AppState.games[0];
       if (!game) return;
 
-      // Header Banner
       const header = document.getElementById('game-detail-header');
-      header.innerHTML = `
-        <img src="${game.cover}" alt="${game.title}" class="w-full md:w-64 h-48 object-cover rounded-2xl border border-brand-border" onerror="this.src='https://placehold.co/400x300/120e24/ffffff?text=${encodeURIComponent(game.title)}'">
-        <div class="space-y-3 text-center md:text-left flex-grow">
-          <span class="px-3 py-1 rounded-full bg-brand-surface border border-brand-accent text-brand-neon text-xs font-bold uppercase">${game.genre}</span>
-          <h1 class="font-gaming text-3xl font-extrabold text-white">${game.title}</h1>
-          <p class="text-slate-300 text-sm max-w-2xl">${game.description}</p>
-        </div>
-      `;
+      if (header) {
+        header.innerHTML = `
+          <img src="${game.cover}" alt="${game.title}" class="w-full md:w-64 h-48 object-cover rounded-2xl border border-brand-border" onerror="this.src='https://placehold.co/400x300/120e24/ffffff?text=${encodeURIComponent(game.title)}'">
+          <div class="space-y-3 text-center md:text-left flex-grow">
+            <span class="px-3 py-1 rounded-full bg-brand-surface border border-brand-accent text-brand-neon text-xs font-bold uppercase">${game.genre}</span>
+            <h1 class="font-gaming text-3xl font-extrabold text-white">${game.title}</h1>
+            <p class="text-slate-300 text-sm max-w-2xl">${game.description}</p>
+          </div>
+        `;
+      }
 
-      // Filter articles for this game
       const gameArticles = AppState.articles.filter(a => a.gameId === game.id && a.status === 'approved');
       const grid = document.getElementById('game-detail-articles-grid');
-      grid.innerHTML = gameArticles.length ? gameArticles.map(a => renderArticleCardHTML(a)).join('') : `
-        <div class="col-span-2 text-center py-12 glass-panel rounded-2xl border border-brand-border">
-          <i class="fa-solid fa-folder-open text-4xl text-slate-500 mb-2 block"></i>
-          <p class="text-slate-400">Aucune astuce encore publiée pour ${game.title}. Soyez le premier !</p>
-        </div>
-      `;
+      if (grid) {
+        grid.innerHTML = gameArticles.length ? gameArticles.map(a => renderArticleCardHTML(a)).join('') : `
+          <div class="col-span-2 text-center py-12 glass-panel rounded-2xl border border-brand-border">
+            <i class="fa-solid fa-folder-open text-4xl text-slate-500 mb-2 block"></i>
+            <p class="text-slate-400">Aucune astuce encore publiée pour ${game.title}. Soyez le premier !</p>
+          </div>
+        `;
+      }
     }
 
     function renderArticlesPage() {
@@ -1237,11 +1168,13 @@ const firebaseConfig = {
       }
 
       const container = document.getElementById('articles-list-container');
-      container.innerHTML = list.length ? list.map(a => renderArticleCardHTML(a)).join('') : `
-        <div class="col-span-full text-center py-12 glass-panel rounded-2xl border border-brand-border">
-          <p class="text-slate-400">Aucun article ne correspond à votre recherche.</p>
-        </div>
-      `;
+      if (container) {
+        container.innerHTML = list.length ? list.map(a => renderArticleCardHTML(a)).join('') : `
+          <div class="col-span-full text-center py-12 glass-panel rounded-2xl border border-brand-border">
+            <p class="text-slate-400">Aucun article ne correspond à votre recherche.</p>
+          </div>
+        `;
+      }
     };
 
     function renderArticleDetailPage() {
@@ -1254,44 +1187,46 @@ const firebaseConfig = {
       const isAdmin = AppState.userProfile?.role === 'admin';
       const isAuthor = AppState.currentUser && AppState.currentUser.uid === article.authorId;
 
-      container.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-brand-border pb-4">
-          <div class="flex items-center gap-3">
-            <span class="px-3 py-1 rounded-full bg-brand-surface text-brand-neon border border-brand-neon/40 text-xs font-bold uppercase">${article.category}</span>
-            <span class="text-xs text-slate-400"><i class="fa-solid fa-gamepad"></i> ${article.gameTitle}</span>
+      if (container) {
+        container.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-brand-border pb-4">
+            <div class="flex items-center gap-3">
+              <span class="px-3 py-1 rounded-full bg-brand-surface text-brand-neon border border-brand-neon/40 text-xs font-bold uppercase">${article.category}</span>
+              <span class="text-xs text-slate-400"><i class="fa-solid fa-gamepad"></i> ${article.gameTitle}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              ${(isAuthor || isAdmin) ? `
+                <button onclick="openEditArticleModal('${article.id}')" class="px-3 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border text-white text-xs">
+                  <i class="fa-solid fa-pen"></i> Modifier
+                </button>
+                <button onclick="handleDeleteArticle('${article.id}')" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 text-xs">
+                  <i class="fa-solid fa-trash"></i> Supprimer
+                </button>
+              ` : ''}
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            ${(isAuthor || isAdmin) ? `
-              <button onclick="openEditArticleModal('${article.id}')" class="px-3 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border text-white text-xs">
-                <i class="fa-solid fa-pen"></i> Modifier
+
+          <h1 class="font-gaming text-2xl sm:text-4xl font-extrabold text-white leading-tight">${article.title}</h1>
+
+          <div class="flex items-center justify-between text-xs text-slate-400 border-b border-brand-border pb-4">
+            <span>Par <b class="text-white">${article.authorName}</b> le ${new Date(article.date).toLocaleDateString()}</span>
+            <div class="flex items-center gap-3">
+              <button onclick="handleLikeArticle('${article.id}')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border ${isLiked ? 'bg-red-500/20 border-red-500 text-red-400' : 'bg-brand-surface border-brand-border text-slate-300 hover:border-red-500'} transition">
+                <i class="fa-solid fa-heart"></i> <span>${article.likes?.length || 0}</span>
               </button>
-              <button onclick="handleDeleteArticle('${article.id}')" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 text-xs">
-                <i class="fa-solid fa-trash"></i> Supprimer
+              <button onclick="handleToggleFavorite('${article.id}')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border ${isFavorited ? 'bg-amber-500/20 border-amber-500 text-amber-400' : 'bg-brand-surface border-brand-border text-slate-300 hover:border-amber-400'} transition">
+                <i class="fa-solid fa-bookmark"></i> Favori
               </button>
-            ` : ''}
+            </div>
           </div>
-        </div>
 
-        <h1 class="font-gaming text-2xl sm:text-4xl font-extrabold text-white leading-tight">${article.title}</h1>
+          ${article.image ? `<img src="${article.image}" alt="${article.title}" class="w-full max-h-96 object-cover rounded-2xl border border-brand-border">` : ''}
 
-        <div class="flex items-center justify-between text-xs text-slate-400 border-b border-brand-border pb-4">
-          <span>Par <b class="text-white">${article.authorName}</b> le ${new Date(article.date).toLocaleDateString()}</span>
-          <div class="flex items-center gap-3">
-            <button onclick="handleLikeArticle('${article.id}')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border ${isLiked ? 'bg-red-500/20 border-red-500 text-red-400' : 'bg-brand-surface border-brand-border text-slate-300 hover:border-red-500'} transition">
-              <i class="fa-solid fa-heart"></i> <span>${article.likes?.length || 0}</span>
-            </button>
-            <button onclick="handleToggleFavorite('${article.id}')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border ${isFavorited ? 'bg-amber-500/20 border-amber-500 text-amber-400' : 'bg-brand-surface border-brand-border text-slate-300 hover:border-amber-400'} transition">
-              <i class="fa-solid fa-bookmark"></i> Favori
-            </button>
+          <div class="prose prose-invert max-w-none text-slate-200 leading-relaxed whitespace-pre-line text-base">
+            ${article.content}
           </div>
-        </div>
-
-        ${article.image ? `<img src="${article.image}" alt="${article.title}" class="w-full max-h-96 object-cover rounded-2xl border border-brand-border">` : ''}
-
-        <div class="prose prose-invert max-w-none text-slate-200 leading-relaxed whitespace-pre-line text-base">
-          ${article.content}
-        </div>
-      `;
+        `;
+      }
 
       renderArticleComments();
     }
@@ -1299,74 +1234,92 @@ const firebaseConfig = {
     function renderArticleComments() {
       const artId = AppState.activeArticleId;
       const comments = AppState.comments.filter(c => c.articleId === artId);
-      document.getElementById('article-comments-count').innerText = comments.length;
+      const countEl = document.getElementById('article-comments-count');
+      if (countEl) countEl.innerText = comments.length;
 
       const formContainer = document.getElementById('comment-form-container');
-      if (AppState.currentUser) {
-        formContainer.innerHTML = `
-          <form onsubmit="handlePostComment(event)" class="space-y-3">
-            <textarea id="comment-input" required placeholder="Écrire un commentaire courtois..." class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none h-24"></textarea>
-            <button type="submit" class="px-5 py-2 rounded-xl bg-brand-accent hover:bg-brand-purpleHover text-white font-bold text-sm">
-              Publier le commentaire
-            </button>
-          </form>
-        `;
-      } else {
-        formContainer.innerHTML = `
-          <div class="p-4 rounded-xl bg-brand-dark/50 border border-brand-border text-center text-sm text-slate-400">
-            Veuillez vous <button onclick="openAuthModal('login')" class="text-brand-neon underline">connecter</button> pour laisser un commentaire.
-          </div>
-        `;
+      if (formContainer) {
+        if (AppState.currentUser) {
+          formContainer.innerHTML = `
+            <form onsubmit="handlePostComment(event)" class="space-y-3">
+              <textarea id="comment-input" required placeholder="Écrire un commentaire courtois..." class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:border-brand-neon outline-none h-24"></textarea>
+              <button type="submit" class="px-5 py-2 rounded-xl bg-brand-accent hover:bg-brand-purpleHover text-white font-bold text-sm">
+                Publier le commentaire
+              </button>
+            </form>
+          `;
+        } else {
+          formContainer.innerHTML = `
+            <div class="p-4 rounded-xl bg-brand-dark/50 border border-brand-border text-center text-sm text-slate-400">
+              Veuillez vous <button onclick="openAuthModal('login')" class="text-brand-neon underline">connecter</button> pour laisser un commentaire.
+            </div>
+          `;
+        }
       }
 
       const listContainer = document.getElementById('article-comments-list');
       const isAdmin = AppState.userProfile?.role === 'admin';
 
-      listContainer.innerHTML = comments.length ? comments.map(c => `
-        <div class="p-4 rounded-xl bg-brand-dark border border-brand-border/60 flex items-start gap-3">
-          <img src="${c.userAvatar || 'https://placehold.co/50x50/8a2be2/fff?text=U'}" alt="Avatar" class="w-8 h-8 rounded-full object-cover">
-          <div class="flex-grow min-w-0 space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-white">${c.userName}</span>
-              <span class="text-[10px] text-slate-500">${new Date(c.date).toLocaleDateString()}</span>
+      if (listContainer) {
+        listContainer.innerHTML = comments.length ? comments.map(c => `
+          <div class="p-4 rounded-xl bg-brand-dark border border-brand-border/60 flex items-start gap-3">
+            <img src="${c.userAvatar || 'https://placehold.co/50x50/8a2be2/fff?text=U'}" alt="Avatar" class="w-8 h-8 rounded-full object-cover">
+            <div class="flex-grow min-w-0 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-white">${c.userName}</span>
+                <span class="text-[10px] text-slate-500">${new Date(c.date).toLocaleDateString()}</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">${c.text}</p>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed">${c.text}</p>
+            ${(isAdmin || (AppState.currentUser && AppState.currentUser.uid === c.userId)) ? `
+              <button onclick="handleDeleteComment('${c.id}')" class="text-slate-500 hover:text-red-400 text-xs p-1">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            ` : ''}
           </div>
-          ${(isAdmin || (AppState.currentUser && AppState.currentUser.uid === c.userId)) ? `
-            <button onclick="handleDeleteComment('${c.id}')" class="text-slate-500 hover:text-red-400 text-xs p-1">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          ` : ''}
-        </div>
-      `).join('') : '<p class="text-slate-400 text-xs text-center py-4">Soyez le premier à commenter !</p>';
+        `).join('') : '<p class="text-slate-400 text-xs text-center py-4">Soyez le premier à commenter !</p>';
+      }
     }
 
     function renderProfilePage() {
       if (!AppState.userProfile) return;
 
-      document.getElementById('profile-page-avatar').src = AppState.userProfile.avatar;
-      document.getElementById('profile-page-username').innerText = AppState.userProfile.username;
-      document.getElementById('profile-page-email').innerText = AppState.userProfile.email;
-      document.getElementById('profile-page-date').innerText = new Date(AppState.userProfile.createdAt).toLocaleDateString();
+      const avatarEl = document.getElementById('profile-page-avatar');
+      if (avatarEl) avatarEl.src = AppState.userProfile.avatar;
+      
+      const userEl = document.getElementById('profile-page-username');
+      if (userEl) userEl.innerText = AppState.userProfile.username;
+      
+      const emailEl = document.getElementById('profile-page-email');
+      if (emailEl) emailEl.innerText = AppState.userProfile.email;
+      
+      const dateEl = document.getElementById('profile-page-date');
+      if (dateEl) dateEl.innerText = new Date(AppState.userProfile.createdAt).toLocaleDateString();
       
       const badge = document.getElementById('profile-page-badge');
-      badge.innerText = AppState.userProfile.role.toUpperCase();
-      badge.className = AppState.userProfile.role === 'admin' 
-        ? 'px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black uppercase' 
-        : 'px-3 py-1 rounded-full bg-brand-accent text-white text-xs font-bold uppercase';
+      if (badge) {
+        badge.innerText = AppState.userProfile.role.toUpperCase();
+        badge.className = AppState.userProfile.role === 'admin' 
+          ? 'px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black uppercase' 
+          : 'px-3 py-1 rounded-full bg-brand-accent text-white text-xs font-bold uppercase';
+      }
 
-      // My Articles Tab
       const myArticles = AppState.articles.filter(a => a.authorId === AppState.userProfile.uid);
-      document.getElementById('profile-tab-articles').innerHTML = myArticles.length 
-        ? myArticles.map(a => renderArticleCardHTML(a)).join('') 
-        : '<p class="text-slate-400 text-sm col-span-2">Vous n\'avez pas encore publié d\'astuce.</p>';
+      const artTab = document.getElementById('profile-tab-articles');
+      if (artTab) {
+        artTab.innerHTML = myArticles.length 
+          ? myArticles.map(a => renderArticleCardHTML(a)).join('') 
+          : '<p class="text-slate-400 text-sm col-span-2">Vous n\'avez pas encore publié d\'astuce.</p>';
+      }
 
-      // My Favorites Tab
       const favIds = AppState.userProfile.favorites || [];
       const favArticles = AppState.articles.filter(a => favIds.includes(a.id));
-      document.getElementById('profile-tab-favorites').innerHTML = favArticles.length 
-        ? favArticles.map(a => renderArticleCardHTML(a)).join('') 
-        : '<p class="text-slate-400 text-sm col-span-2">Aucun article enregistré en favori.</p>';
+      const favTab = document.getElementById('profile-tab-favorites');
+      if (favTab) {
+        favTab.innerHTML = favArticles.length 
+          ? favArticles.map(a => renderArticleCardHTML(a)).join('') 
+          : '<p class="text-slate-400 text-sm col-span-2">Aucun article enregistré en favori.</p>';
+      }
     }
 
     function renderAdminDashboard() {
@@ -1381,12 +1334,21 @@ const firebaseConfig = {
     }
 
     function renderAdminStats() {
-      document.getElementById('admin-stat-users').innerText = AppState.allUsers.length || 1;
-      document.getElementById('admin-stat-articles').innerText = AppState.articles.filter(a => a.status === 'approved').length;
+      const uStat = document.getElementById('admin-stat-users');
+      if (uStat) uStat.innerText = AppState.allUsers.length || 1;
+      
+      const aStat = document.getElementById('admin-stat-articles');
+      if (aStat) aStat.innerText = AppState.articles.filter(a => a.status === 'approved').length;
+      
       const pendingCount = AppState.articles.filter(a => a.status === 'pending').length;
-      document.getElementById('admin-stat-pending').innerText = pendingCount;
-      document.getElementById('admin-pending-badge').innerText = pendingCount;
-      document.getElementById('admin-stat-games').innerText = AppState.games.length;
+      const pStat = document.getElementById('admin-stat-pending');
+      if (pStat) pStat.innerText = pendingCount;
+      
+      const pBadge = document.getElementById('admin-pending-badge');
+      if (pBadge) pBadge.innerText = pendingCount;
+      
+      const gStat = document.getElementById('admin-stat-games');
+      if (gStat) gStat.innerText = AppState.games.length;
     }
 
     window.switchAdminTab = function(tab) {
@@ -1412,102 +1374,109 @@ const firebaseConfig = {
       const pending = AppState.articles.filter(a => a.status === 'pending');
       const container = document.getElementById('admin-pending-articles-list');
 
-      container.innerHTML = pending.length ? pending.map(a => `
-        <div class="glass-panel p-5 rounded-2xl border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="space-y-1">
-            <span class="text-xs text-amber-400 font-bold">[En attente de validation]</span>
-            <h4 class="font-bold text-white">${a.title}</h4>
-            <p class="text-xs text-slate-400">Jeu: ${a.gameTitle} • Auteur: ${a.authorName}</p>
+      if (container) {
+        container.innerHTML = pending.length ? pending.map(a => `
+          <div class="glass-panel p-5 rounded-2xl border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <span class="text-xs text-amber-400 font-bold">[En attente de validation]</span>
+              <h4 class="font-bold text-white">${a.title}</h4>
+              <p class="text-xs text-slate-400">Jeu: ${a.gameTitle} • Auteur: ${a.authorName}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="handleApproveArticle('${a.id}')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs">
+                Approuver
+              </button>
+              <button onclick="handleDeleteArticle('${a.id}')" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs">
+                Rejeter / Supprimer
+              </button>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button onclick="handleApproveArticle('${a.id}')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs">
-              Approuver
-            </button>
-            <button onclick="handleDeleteArticle('${a.id}')" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs">
-              Rejeter / Supprimer
-            </button>
-          </div>
-        </div>
-      `).join('') : '<p class="text-slate-400 text-sm">Aucun article en attente de validation.</p>';
+        `).join('') : '<p class="text-slate-400 text-sm">Aucun article en attente de validation.</p>';
+      }
     }
 
     function renderAdminAllArticles() {
       const container = document.getElementById('admin-all-articles-list');
-      container.innerHTML = AppState.articles.map(a => `
-        <div class="p-3 rounded-xl bg-brand-dark border border-brand-border flex items-center justify-between gap-4 text-xs">
-          <div class="min-w-0">
-            <h5 class="font-bold text-white truncate">${a.title}</h5>
-            <span class="text-slate-400">${a.gameTitle} • ${a.status}</span>
+      if (container) {
+        container.innerHTML = AppState.articles.map(a => `
+          <div class="p-3 rounded-xl bg-brand-dark border border-brand-border flex items-center justify-between gap-4 text-xs">
+            <div class="min-w-0">
+              <h5 class="font-bold text-white truncate">${a.title}</h5>
+              <span class="text-slate-400">${a.gameTitle} • ${a.status}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="handleToggleFeatured('${a.id}')" class="px-2.5 py-1 rounded bg-brand-surface ${a.featured ? 'text-amber-400 border border-amber-400' : 'text-slate-400'}">
+                <i class="fa-solid fa-star"></i> En avant
+              </button>
+              <button onclick="handleDeleteArticle('${a.id}')" class="px-2.5 py-1 rounded bg-red-500/20 text-red-400">
+                Supprimer
+              </button>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button onclick="handleToggleFeatured('${a.id}')" class="px-2.5 py-1 rounded bg-brand-surface ${a.featured ? 'text-amber-400 border border-amber-400' : 'text-slate-400'}">
-              <i class="fa-solid fa-star"></i> En avant
-            </button>
-            <button onclick="handleDeleteArticle('${a.id}')" class="px-2.5 py-1 rounded bg-red-500/20 text-red-400">
-              Supprimer
-            </button>
-          </div>
-        </div>
-      `).join('');
+        `).join('');
+      }
     }
 
     function renderAdminGamesList() {
       const container = document.getElementById('admin-games-list');
-      container.innerHTML = AppState.games.map(g => `
-        <div class="p-3 rounded-xl bg-brand-dark border border-brand-border flex items-center justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <img src="${g.cover}" alt="${g.title}" class="w-10 h-10 rounded-lg object-cover">
-            <div>
-              <h5 class="font-bold text-white text-xs">${g.title}</h5>
-              <span class="text-[10px] text-slate-400">${g.genre}</span>
+      if (container) {
+        container.innerHTML = AppState.games.map(g => `
+          <div class="p-3 rounded-xl bg-brand-dark border border-brand-border flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <img src="${g.cover}" alt="${g.title}" class="w-10 h-10 rounded-lg object-cover">
+              <div>
+                <h5 class="font-bold text-white text-xs">${g.title}</h5>
+                <span class="text-[10px] text-slate-400">${g.genre}</span>
+              </div>
             </div>
+            <button onclick="handleDeleteGame('${g.id}')" class="text-red-400 hover:text-red-300 text-xs p-1">
+              <i class="fa-solid fa-trash"></i>
+            </button>
           </div>
-          <button onclick="handleDeleteGame('${g.id}')" class="text-red-400 hover:text-red-300 text-xs p-1">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </div>
-      `).join('');
+        `).join('');
+      }
     }
 
     function renderAdminUsersList() {
       const container = document.getElementById('admin-users-table-container');
       const users = AppState.allUsers.length ? AppState.allUsers : [AppState.userProfile].filter(Boolean);
 
-      container.innerHTML = `
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="border-b border-brand-border bg-brand-surface text-slate-400 font-bold uppercase">
-              <th class="p-3">Utilisateur</th>
-              <th class="p-3">Email</th>
-              <th class="p-3">Rôle</th>
-              <th class="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${users.map(u => `
-              <tr class="border-b border-brand-border/40 hover:bg-brand-surface/50">
-                <td class="p-3 font-bold text-white flex items-center gap-2">
-                  <img src="${u.avatar}" class="w-6 h-6 rounded-full"> ${u.username}
-                </td>
-                <td class="p-3 text-slate-400">${u.email}</td>
-                <td class="p-3">
-                  <span class="px-2 py-0.5 rounded ${u.role === 'admin' ? 'bg-amber-500 text-black font-bold' : 'bg-brand-surface text-slate-300'}">
-                    ${u.role}
-                  </span>
-                </td>
-                <td class="p-3">
-                  <button onclick="handlePromoteAdmin('${u.uid}')" class="text-brand-neon hover:underline mr-3">
-                    ${u.role === 'admin' ? 'Rétrograder' : 'Promouvoir Admin'}
-                  </button>
-                </td>
+      if (container) {
+        container.innerHTML = `
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-brand-border bg-brand-surface text-slate-400 font-bold uppercase">
+                <th class="p-3">Utilisateur</th>
+                <th class="p-3">Email</th>
+                <th class="p-3">Rôle</th>
+                <th class="p-3">Actions</th>
               </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      `;
+            </thead>
+            <tbody>
+              ${users.map(u => `
+                <tr class="border-b border-brand-border/40 hover:bg-brand-surface/50">
+                  <td class="p-3 font-bold text-white flex items-center gap-2">
+                    <img src="${u.avatar}" class="w-6 h-6 rounded-full"> ${u.username}
+                  </td>
+                  <td class="p-3 text-slate-400">${u.email}</td>
+                  <td class="p-3">
+                    <span class="px-2 py-0.5 rounded ${u.role === 'admin' ? 'bg-amber-500 text-black font-bold' : 'bg-brand-surface text-slate-300'}">
+                      ${u.role}
+                    </span>
+                  </td>
+                  <td class="p-3">
+                    <button onclick="handlePromoteAdmin('${u.uid}')" class="text-brand-neon hover:underline mr-3">
+                      ${u.role === 'admin' ? 'Rétrograder' : 'Promouvoir Admin'}
+                    </button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
     }
 
-    // Helper Card Component Generator
     function renderArticleCardHTML(article) {
       return `
         <div onclick="navigateTo('article-detail', '${article.id}')" class="glass-panel rounded-2xl overflow-hidden border border-brand-border cursor-pointer hover:border-brand-neon transition glow-hover flex flex-col justify-between">
@@ -1529,9 +1498,6 @@ const firebaseConfig = {
       `;
     }
 
-    // ----------------------------------------------------
-    // USER INTERACTION HANDLERS & FIRESTORE MUTATIONS
-    // ----------------------------------------------------
     window.handleArticleSubmit = async function(e) {
       e.preventDefault();
       if (!AppState.currentUser) {
@@ -1561,28 +1527,32 @@ const firebaseConfig = {
         authorName: AppState.userProfile?.username || 'Joueur',
         date: new Date().toISOString(),
         likes: [],
-        status: isAdmin ? 'approved' : 'pending', // Require approval for normal users
+        status: isAdmin ? 'approved' : 'pending',
         featured: false
       };
 
       try {
-        if (editId) {
-          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', editId);
-          await updateDoc(docRef, { title, gameId, gameTitle: articleObj.gameTitle, category, image: articleObj.image, content });
-          showToast("Article mis à jour avec succès !", "success");
+        if (db) {
+          if (editId) {
+            const docRef = doc(db, 'articles', editId);
+            await updateDoc(docRef, { title, gameId, gameTitle: articleObj.gameTitle, category, image: articleObj.image, content });
+          } else {
+            const colRef = collection(db, 'articles');
+            await addDoc(colRef, articleObj);
+          }
         } else {
-          const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'articles');
-          await addDoc(colRef, articleObj);
-          showToast(isAdmin ? "Article publié !" : "Article soumis ! Un administrateur va le valider.", "success");
+          if (!editId) {
+            articleObj.id = 'art_' + Date.now();
+            AppState.articles.unshift(articleObj);
+          }
         }
+        showToast(isAdmin ? "Article publié !" : "Article soumis ! Un administrateur va le valider.", "success");
         closeSubmitModal();
+        renderCurrentView();
       } catch (err) {
-        // Fallback local memory save
-        if (!editId) {
-          articleObj.id = 'art_' + Date.now();
-          AppState.articles.unshift(articleObj);
-        }
-        showToast("Enregistré (Mode Hors Ligne).", "success");
+        articleObj.id = 'art_' + Date.now();
+        AppState.articles.unshift(articleObj);
+        showToast("Enregistré localement.", "success");
         closeSubmitModal();
         renderCurrentView();
       }
@@ -1602,12 +1572,13 @@ const firebaseConfig = {
       const updatedLikes = likes.includes(uid) ? likes.filter(id => id !== uid) : [...likes, uid];
 
       try {
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', artId);
-        await updateDoc(docRef, { likes: updatedLikes });
-      } catch(e) {
-        article.likes = updatedLikes;
-        renderArticleDetailPage();
-      }
+        if (db) {
+          const docRef = doc(db, 'articles', artId);
+          await updateDoc(docRef, { likes: updatedLikes });
+        }
+      } catch(e) {}
+      article.likes = updatedLikes;
+      renderArticleDetailPage();
     };
 
     window.handleToggleFavorite = async function(artId) {
@@ -1620,19 +1591,20 @@ const firebaseConfig = {
       AppState.userProfile.favorites = updatedFavs;
 
       try {
-        const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', AppState.currentUser.uid);
-        await updateDoc(userRef, { favorites: updatedFavs });
-        showToast(updatedFavs.includes(artId) ? "Ajouté aux favoris !" : "Retiré des favoris.", "info");
-        renderArticleDetailPage();
-      } catch(e) {
-        showToast("Favoris mis à jour.", "info");
-      }
+        if (db) {
+          const userRef = doc(db, 'users', AppState.currentUser.uid);
+          await updateDoc(userRef, { favorites: updatedFavs });
+        }
+      } catch(e) {}
+      showToast(updatedFavs.includes(artId) ? "Ajouté aux favoris !" : "Retiré des favoris.", "info");
+      renderArticleDetailPage();
     };
 
     window.handlePostComment = async function(e) {
       e.preventDefault();
       if (!AppState.currentUser) return;
-      const text = document.getElementById('comment-input').value.trim();
+      const input = document.getElementById('comment-input');
+      const text = input.value.trim();
       if (!text) return;
 
       const commObj = {
@@ -1645,62 +1617,69 @@ const firebaseConfig = {
       };
 
       try {
-        const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'comments');
-        await addDoc(colRef, commObj);
-        document.getElementById('comment-input').value = '';
+        if (db) {
+          const colRef = collection(db, 'comments');
+          await addDoc(colRef, commObj);
+        } else {
+          commObj.id = 'comm_' + Date.now();
+          AppState.comments.push(commObj);
+        }
       } catch (err) {
         commObj.id = 'comm_' + Date.now();
         AppState.comments.push(commObj);
-        renderArticleComments();
-        document.getElementById('comment-input').value = '';
       }
+      input.value = '';
+      renderArticleComments();
     };
 
     window.handleDeleteComment = async function(commId) {
       try {
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'comments', commId);
-        await deleteDoc(docRef);
-      } catch(e) {
-        AppState.comments = AppState.comments.filter(c => c.id !== commId);
-        renderArticleComments();
-      }
+        if (db) {
+          const docRef = doc(db, 'comments', commId);
+          await deleteDoc(docRef);
+        }
+      } catch(e) {}
+      AppState.comments = AppState.comments.filter(c => c.id !== commId);
+      renderArticleComments();
     };
 
     window.handleApproveArticle = async function(artId) {
       try {
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', artId);
-        await updateDoc(docRef, { status: 'approved' });
-        showToast("Article approuvé et publié !", "success");
-      } catch(e) {
-        const art = AppState.articles.find(a => a.id === artId);
-        if (art) art.status = 'approved';
-        renderAdminDashboard();
-      }
+        if (db) {
+          const docRef = doc(db, 'articles', artId);
+          await updateDoc(docRef, { status: 'approved' });
+        }
+      } catch(e) {}
+      const art = AppState.articles.find(a => a.id === artId);
+      if (art) art.status = 'approved';
+      showToast("Article approuvé et publié !", "success");
+      renderAdminDashboard();
     };
 
     window.handleDeleteArticle = async function(artId) {
       try {
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', artId);
-        await deleteDoc(docRef);
-        showToast("Article supprimé.", "info");
-        if (AppState.currentView === 'article-detail') navigateTo('articles');
-      } catch(e) {
-        AppState.articles = AppState.articles.filter(a => a.id !== artId);
-        showToast("Article supprimé.", "info");
-        navigateTo('articles');
-      }
+        if (db) {
+          const docRef = doc(db, 'articles', artId);
+          await deleteDoc(docRef);
+        }
+      } catch(e) {}
+      AppState.articles = AppState.articles.filter(a => a.id !== artId);
+      showToast("Article supprimé.", "info");
+      if (AppState.currentView === 'article-detail') navigateTo('articles');
+      else renderAdminDashboard();
     };
 
     window.handleToggleFeatured = async function(artId) {
       const art = AppState.articles.find(a => a.id === artId);
       if (!art) return;
+      art.featured = !art.featured;
       try {
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'articles', artId);
-        await updateDoc(docRef, { featured: !art.featured });
-      } catch(e) {
-        art.featured = !art.featured;
-        renderAdminDashboard();
-      }
+        if (db) {
+          const docRef = doc(db, 'articles', artId);
+          await updateDoc(docRef, { featured: art.featured });
+        }
+      } catch(e) {}
+      renderAdminDashboard();
     };
 
     window.handleCreateGame = async function(e) {
@@ -1713,46 +1692,64 @@ const firebaseConfig = {
       const gameObj = { title, genre, cover, description };
 
       try {
-        const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'games');
-        await addDoc(colRef, gameObj);
+        if (db) {
+          const colRef = collection(db, 'games');
+          await addDoc(colRef, gameObj);
+        } else {
+          gameObj.id = 'g_' + Date.now();
+          AppState.games.push(gameObj);
+        }
         showToast("Jeu ajouté au catalogue !", "success");
         e.target.reset();
+        renderAdminDashboard();
       } catch(e) {
         gameObj.id = 'g_' + Date.now();
         AppState.games.push(gameObj);
         showToast("Jeu ajouté !", "success");
-        renderAdminDashboard();
         e.target.reset();
+        renderAdminDashboard();
       }
     };
 
     window.handleDeleteGame = async function(gId) {
       try {
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'games', gId);
-        await deleteDoc(docRef);
-      } catch(e) {
-        AppState.games = AppState.games.filter(g => g.id !== gId);
-        renderAdminDashboard();
-      }
+        if (db) {
+          const docRef = doc(db, 'games', gId);
+          await deleteDoc(docRef);
+        }
+      } catch(e) {}
+      AppState.games = AppState.games.filter(g => g.id !== gId);
+      renderAdminDashboard();
     };
 
     window.handleAdminKeySubmit = async function(e) {
       e.preventDefault();
       const key = document.getElementById('admin-secret-key').value;
       if (key === 'WIKIGAME-ADMIN-SECRET') {
-        if (AppState.currentUser && AppState.userProfile) {
+        if (!AppState.userProfile) {
+          AppState.userProfile = {
+            uid: 'admin_local',
+            email: 'admin@wikigame.com',
+            username: 'Admin',
+            avatar: 'https://placehold.co/120x120/8a2be2/ffffff?text=A',
+            role: 'admin',
+            createdAt: new Date().toISOString(),
+            favorites: []
+          };
+          AppState.currentUser = { uid: 'admin_local' };
+        } else {
           AppState.userProfile.role = 'admin';
           try {
-            const uRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', AppState.currentUser.uid);
-            await updateDoc(uRef, { role: 'admin' });
+            if (db && AppState.currentUser) {
+              const uRef = doc(db, 'users', AppState.currentUser.uid);
+              await updateDoc(uRef, { role: 'admin' });
+            }
           } catch(err) {}
-          updateUIAuthStates();
-          closeAdminSetupGuide();
-          showToast("Félicitations ! Vous êtes maintenant Administrateur.", "success");
-          navigateTo('admin');
-        } else {
-          showToast("Veuillez d'abord créer un compte et vous connecter.", "error");
         }
+        updateUIAuthStates();
+        closeAdminSetupGuide();
+        showToast("Félicitations ! Vous êtes maintenant Administrateur.", "success");
+        navigateTo('admin');
       } else {
         showToast("Clé secrète invalide.", "error");
       }
@@ -1762,26 +1759,31 @@ const firebaseConfig = {
       const u = AppState.allUsers.find(user => user.uid === uid);
       if (!u) return;
       const newRole = u.role === 'admin' ? 'member' : 'admin';
+      u.role = newRole;
       try {
-        const uRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', uid);
-        await updateDoc(uRef, { role: newRole });
-        showToast(`Rôle mis à jour: ${newRole}`, "info");
-      } catch(e) {
-        u.role = newRole;
-        renderAdminDashboard();
-      }
+        if (db) {
+          const uRef = doc(db, 'users', uid);
+          await updateDoc(uRef, { role: newRole });
+        }
+      } catch(e) {}
+      showToast(`Rôle mis à jour: ${newRole}`, "info");
+      renderAdminDashboard();
     };
 
-    // ----------------------------------------------------
-    // AUTH MODAL & FORM HANDLERS
-    // ----------------------------------------------------
     window.handleLoginSubmit = async function(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value;
       const pass = document.getElementById('login-password').value;
 
       try {
-        await signInWithEmailAndPassword(auth, email, pass);
+        if (auth) {
+          await signInWithEmailAndPassword(auth, email, pass);
+        } else {
+          AppState.currentUser = { uid: 'u_' + Date.now(), email };
+          AppState.userProfile = { uid: AppState.currentUser.uid, email, username: email.split('@')[0], role: 'member', avatar: 'https://placehold.co/80x80/8a2be2/fff?text=U', favorites: [], createdAt: new Date().toISOString() };
+          updateUIAuthStates();
+          renderCurrentView();
+        }
         closeAuthModal();
         showToast("Connexion réussie !", "success");
       } catch (err) {
@@ -1802,19 +1804,28 @@ const firebaseConfig = {
       }
 
       try {
-        const res = await createUserWithEmailAndPassword(auth, email, pass);
-        const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', res.user.uid);
-        const newProf = {
-          uid: res.user.uid,
-          email,
-          username,
-          avatar: 'https://placehold.co/120x120/8a2be2/ffffff?text=' + username[0].toUpperCase(),
-          role: 'member',
-          createdAt: new Date().toISOString(),
-          favorites: []
-        };
-        await setDoc(userRef, newProf);
-        AppState.userProfile = newProf;
+        if (auth) {
+          const res = await createUserWithEmailAndPassword(auth, email, pass);
+          const newProf = {
+            uid: res.user.uid,
+            email,
+            username,
+            avatar: 'https://placehold.co/120x120/8a2be2/ffffff?text=' + username[0].toUpperCase(),
+            role: 'member',
+            createdAt: new Date().toISOString(),
+            favorites: []
+          };
+          if (db) {
+            const userRef = doc(db, 'users', res.user.uid);
+            await setDoc(userRef, newProf);
+          }
+          AppState.userProfile = newProf;
+        } else {
+          AppState.currentUser = { uid: 'u_' + Date.now(), email };
+          AppState.userProfile = { uid: AppState.currentUser.uid, email, username, role: 'member', avatar: 'https://placehold.co/120x120/8a2be2/ffffff?text=' + username[0].toUpperCase(), favorites: [], createdAt: new Date().toISOString() };
+          updateUIAuthStates();
+          renderCurrentView();
+        }
         closeAuthModal();
         showToast("Compte créé avec succès ! Bienvenue.", "success");
       } catch (err) {
@@ -1824,17 +1835,20 @@ const firebaseConfig = {
 
     window.handleLogout = async function() {
       try {
-        await signOut(auth);
-        showToast("Déconnexion réussie.", "info");
-        navigateTo('home');
+        if (auth) await signOut(auth);
       } catch(e) {}
+      AppState.currentUser = null;
+      AppState.userProfile = null;
+      updateUIAuthStates();
+      showToast("Déconnexion réussie.", "info");
+      navigateTo('home');
     };
 
     window.handleForgotPassword = async function() {
       const email = prompt("Veuillez entrer votre adresse e-mail pour réinitialiser le mot de passe:");
       if (email) {
         try {
-          await sendPasswordResetEmail(auth, email);
+          if (auth) await sendPasswordResetEmail(auth, email);
           showToast("E-mail de réinitialisation envoyé !", "info");
         } catch(e) {
           showToast("Erreur lors de l'envoi de l'e-mail.", "error");
@@ -1844,7 +1858,7 @@ const firebaseConfig = {
 
     window.handleSaveProfile = async function(e) {
       e.preventDefault();
-      if (!AppState.currentUser) return;
+      if (!AppState.userProfile) return;
       const newUsername = document.getElementById('edit-prof-username').value.trim();
       const newAvatar = document.getElementById('edit-prof-avatar').value.trim();
 
@@ -1852,54 +1866,64 @@ const firebaseConfig = {
       if (newAvatar) AppState.userProfile.avatar = newAvatar;
 
       try {
-        const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', AppState.currentUser.uid);
-        await updateDoc(userRef, { username: newUsername, avatar: AppState.userProfile.avatar });
-        showToast("Profil mis à jour !", "success");
-        closeEditProfileModal();
-        updateUIAuthStates();
-        renderCurrentView();
-      } catch(e) {
-        showToast("Profil mis à jour localement.", "info");
-        closeEditProfileModal();
-        renderCurrentView();
-      }
+        if (db && AppState.currentUser) {
+          const userRef = doc(db, 'users', AppState.currentUser.uid);
+          await updateDoc(userRef, { username: newUsername, avatar: AppState.userProfile.avatar });
+        }
+      } catch(e) {}
+      showToast("Profil mis à jour !", "success");
+      closeEditProfileModal();
+      updateUIAuthStates();
+      renderCurrentView();
     };
 
-    // Helper UI functions
     function updateUIAuthStates() {
       const isLogged = !!AppState.currentUser;
       const isAdmin = AppState.userProfile?.role === 'admin';
 
-      document.getElementById('auth-buttons-desktop').classList.toggle('hidden', isLogged);
-      document.getElementById('user-menu-desktop').classList.toggle('hidden', !isLogged);
-      document.getElementById('admin-dashboard-btn').classList.toggle('hidden', !isAdmin);
+      const authDesk = document.getElementById('auth-buttons-desktop');
+      if (authDesk) authDesk.classList.toggle('hidden', isLogged);
+      
+      const userDesk = document.getElementById('user-menu-desktop');
+      if (userDesk) userDesk.classList.toggle('hidden', !isLogged);
+      
+      const adminBtn = document.getElementById('admin-dashboard-btn');
+      if (adminBtn) adminBtn.classList.toggle('hidden', !isAdmin);
 
       if (isLogged && AppState.userProfile) {
-        document.getElementById('user-avatar-img').src = AppState.userProfile.avatar;
-        document.getElementById('user-display-name').innerText = AppState.userProfile.username;
-        document.getElementById('user-dropdown-email').innerText = AppState.userProfile.email;
-        document.getElementById('user-role-badge').innerText = AppState.userProfile.role.toUpperCase();
+        const uImg = document.getElementById('user-avatar-img');
+        if (uImg) uImg.src = AppState.userProfile.avatar;
+        
+        const uName = document.getElementById('user-display-name');
+        if (uName) uName.innerText = AppState.userProfile.username;
+        
+        const uMail = document.getElementById('user-dropdown-email');
+        if (uMail) uMail.innerText = AppState.userProfile.email;
+        
+        const uRole = document.getElementById('user-role-badge');
+        if (uRole) uRole.innerText = AppState.userProfile.role.toUpperCase();
       }
 
-      // Mobile section
       const mobSection = document.getElementById('mobile-auth-section');
-      if (isLogged) {
-        mobSection.innerHTML = `
-          <div class="flex items-center gap-3 mb-3">
-            <img src="${AppState.userProfile?.avatar}" class="w-8 h-8 rounded-full">
-            <span class="font-bold text-white text-sm">${AppState.userProfile?.username}</span>
-          </div>
-          <button onclick="navigateTo('profile'); toggleMobileMenu()" class="block w-full text-left py-1 text-sm text-brand-neon">Mon Profil</button>
-          ${isAdmin ? `<button onclick="navigateTo('admin'); toggleMobileMenu()" class="block w-full text-left py-1 text-sm text-amber-400">Dashboard Admin</button>` : ''}
-          <button onclick="handleLogout()" class="block w-full text-left py-1 text-sm text-red-400 mt-2">Déconnexion</button>
-        `;
-      } else {
-        mobSection.innerHTML = `
-          <div class="flex gap-2">
-            <button onclick="openAuthModal('login'); toggleMobileMenu()" class="w-1/2 py-2 rounded-lg bg-brand-surface text-white text-sm">Connexion</button>
-            <button onclick="openAuthModal('register'); toggleMobileMenu()" class="w-1/2 py-2 rounded-lg bg-brand-accent text-white text-sm">Inscription</button>
-          </div>
-        `;
+      if (mobSection) {
+        if (isLogged) {
+          mobSection.innerHTML = `
+            <div class="flex items-center gap-3 mb-3">
+              <img src="${AppState.userProfile?.avatar}" class="w-8 h-8 rounded-full">
+              <span class="font-bold text-white text-sm">${AppState.userProfile?.username}</span>
+            </div>
+            <button onclick="navigateTo('profile'); toggleMobileMenu()" class="block w-full text-left py-1 text-sm text-brand-neon">Mon Profil</button>
+            ${isAdmin ? `<button onclick="navigateTo('admin'); toggleMobileMenu()" class="block w-full text-left py-1 text-sm text-amber-400">Dashboard Admin</button>` : ''}
+            <button onclick="handleLogout()" class="block w-full text-left py-1 text-sm text-red-400 mt-2">Déconnexion</button>
+          `;
+        } else {
+          mobSection.innerHTML = `
+            <div class="flex gap-2">
+              <button onclick="openAuthModal('login'); toggleMobileMenu()" class="w-1/2 py-2 rounded-lg bg-brand-surface text-white text-sm">Connexion</button>
+              <button onclick="openAuthModal('register'); toggleMobileMenu()" class="w-1/2 py-2 rounded-lg bg-brand-accent text-white text-sm">Inscription</button>
+            </div>
+          `;
+        }
       }
     }
 
@@ -1915,7 +1939,6 @@ const firebaseConfig = {
       }
     }
 
-    // Modal triggers
     window.openAuthModal = function(tab = 'login') {
       switchAuthTab(tab);
       document.getElementById('auth-modal').classList.remove('hidden');
@@ -2010,6 +2033,7 @@ const firebaseConfig = {
 
     function showToast(msg, type = "info") {
       const container = document.getElementById('toast-container');
+      if (!container) return;
       const toast = document.createElement('div');
       const colors = {
         success: 'border-emerald-500 bg-emerald-950/90 text-emerald-200',
@@ -2022,12 +2046,11 @@ const firebaseConfig = {
       setTimeout(() => toast.remove(), 4000);
     }
 
-    // ----------------------------------------------------
-    // INITIALIZATION ON LOAD
-    // ----------------------------------------------------
     window.addEventListener('load', () => {
+      populateGameSelects();
       initAuth();
       setupFirestoreListeners();
+      renderCurrentView();
     });
   </script>
 </body>
